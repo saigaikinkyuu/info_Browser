@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://code.jquery.com/jquery-1.6.4.js"></script>
+    <title>情報表示モニター</title>
+  </head>
+  <body>
+    <style>
+      img{
+        height: 345px;
+        padding-top: 2px;
+      }
+    </style>
+    <div>
+      <h1 id="kind"></h1>
+      <p id="body" style="font-size: 20px;"></p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.js" defer></script>
+    <script>
+      window.setInterval(check, 1000);
+      var attend = "";
+      var eew = "";
+      var tsunami = "";
+      var quake = "";
+      var tsunamiNotify = "";
+      var error = "";
+      var num = 0;
+      var num2 = false;
+      var num4 = 0
+      error = false
+      function requestFullscreen(elem) {
+        // 全画面表示をリクエストするメソッドを取得
+        const method = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
+        if (method) {
+          method.call(elem); // 全画面表示をリクエスト
+        }
+      }
+
+      function openFullscreen() {
+        const elem = document.documentElement;
+        requestFullscreen(elem);
+      }
+      function check(){
+        try{
+          var announceN = new Howl({
+            src: 'https://saigaikinkyuu.github.io/device_info/audio/announce.mp3',
+            autoplay: false,
+            volume: 0.6,
+            loop: false,
+            onplay: () =>{if(num4 !== 2){tsunamiN.pause()}},
+            onload: () =>{if(num4 !== 2){tsunamiN.stop()}},
+            onend: () =>{if(num4 === 2){tsunamiN.play()}}
+          });
+          var eewN = new Howl({
+            src: 'https://saigaikinkyuu.github.io/device_info/audio/eew.mp3',
+            autoplay: false,
+            volume: 0.6,
+            loop: false,
+            onplay: () =>{if(num4 !== 2){tsunamiN.pause()}},
+            onload: () =>{if(num4 !== 2){tsunamiN.stop()}},
+            onend: () =>{if(num4 === 2){tsunamiN.play()}}
+          });
+          num++
+          if(num2 === false || num2 === true){
+            if(num === 3){
+              num = 0;
+              url = 'https://api.p2pquake.net/v2/history?codes=556';
+              fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                  if(eew !== data[0].id && eew !== ""){
+                    eew = data[0].id;
+                    if(num2 === true){
+                      num4 = 2
+                      document.getElementById("kind").textContent = "EEW"
+                      var areas = data[0].areas
+                      var areaBody = ""
+                      for(var i = 0;i<areas.length;i++){
+                        areaBody += areas[i].pref + "　"
+                      }
+                      document.getElementById("body").textContent = "発表地域\n" + areaBody
+                      eewN.play();
+                    }
+                  }else if(eew === ""){
+                    eew = data[0].id
+                  }
+                });
+              //津波(tsunami1,tsunami2)
+              url = 'https://api.p2pquake.net/v2/history?codes=552&limit=1';
+              fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                  if(data[0]){
+                    if(tsunami !== data[0].id && tsunami !== ""){
+                      tsunami = data[0].id;
+                      if(data[0].area){
+                          if(num2 === true){
+                            num4 = 2
+                            document.getElementById("kind").textContent = "TSUNAMI"
+                            if(data[0].cancelled === true){
+                              document.getElementById("body").textContent = "発表地域全域にて解除"
+                            }else if(data[0].cancelled === false){
+                              var watch = ""
+                              var warning = ""
+                              var mesureWarning = ""
+                              var areas = data[0].areas
+                              for(var i = 0;i<areas.length;i++){
+                                if(areas[i].grade === "Watch"){
+                                  watch += areas[0].name + "　"
+                                }else if(areas[i].grade === "Warning"){//更新最終
+                                  watch += areas[0].name + "　"
+                                }else if(areas[i].grade === "MajorWarning"){
+                                  watch += areas[0].name + "　"
+                                }
+                              }
+                              document.getElementById("body").textContent = ""
+                            }
+                            announceN.play();
+                          }
+                        }else{
+                          document.getElementById("tsunami1").style.display = "none"
+                          document.getElementById("tsunami2").style.display = "none"
+                        }
+                      }else{
+                        document.getElementById("tsunami1").style.display = "none"
+                        document.getElementById("tsunami2").style.display = "none"
+                      }
+                    }else if(tsunami === ""){
+                      tsunami = data[0].id
+                    }else{
+                      document.getElementById("tsunami1").style.display = "none"
+                      document.getElementById("tsunami2").style.display = "none"
+                    }
+                  }else{
+                    document.getElementById("tsunami1").style.display = "none"
+                    document.getElementById("tsunami2").style.display = "none"
+                  }
+                });
+              url = 'https://api.p2pquake.net/v2/history?codes=551&limit=1';
+              fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                  if(quake !== data[0].id && quake !== ""){
+                      quake = data[0].id;
+                      if(num2 === true){
+                        num4 = 2
+                        document.getElementById("kind").textContent = "QUAKE"
+                        document.getElementById("tsunami1").style.display = "none"
+                        document.getElementById("tsunami2").style.display = "none"
+                        document.getElementById("quake").style.display = "block"
+                        document.getElementById("tsunamiNotifycation").style.display = "none"
+                        document.getElementById("error").style.display = "none"
+                        announceN.play();
+                      }
+                  }else if(quake === ""){
+                    quake = data[0].id
+                  }else{
+                    document.getElementById("quake").style.display = "none"
+                  }
+                });
+              if(num4 <= 2){
+                if(num4 !== 2){
+                num4 = 1
+                }
+                num2 = true;
+              }
+            }
+        }catch(e){
+          console.error(e.message + e.lineNumber)
+          document.getElementById("eew").style.display = "none"
+          document.getElementById("tsunami1").style.display = "none"
+          document.getElementById("tsunami2").style.display = "none"
+          document.getElementById("quake").style.display = "none"
+          document.getElementById("tsunamiNotifycation").style.display = "none"
+          document.getElementById("error").style.display = "block"
+          announceN.play();
+          function errorStop(){
+            announceN.stop();
+          }
+        }
+      }
+      function eewStop(){
+        num4 = 1
+        document.getElementById("eew").style.display = "none"
+      }
+       function tsunamiStop(id){
+        num4 = 1
+         if(id = 1){
+           document.getElementById("tsunami1").style.display = "none"
+         }else if(id = 2){
+           document.getElementById("tsunami2").style.display = "none"
+         }
+      }
+      function quakeStop(){
+        num4 = 1
+        document.getElementById("quake").style.display = "none"
+      }
+    </script>
+  </body>
+</html>

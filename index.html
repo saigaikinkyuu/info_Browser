@@ -14,7 +14,7 @@
       }
     </style>
     <div>
-      <div id="div" onclick="stop">
+      <div id="div" onclick="stop()">
       <h1 id="kind"></h1>
       <p id="body" style="font-size: 20px;"></p>
       </div>
@@ -226,6 +226,7 @@
                           if(data[0].points){
                             var points = data[0].points
                             var areasCheck = ""
+                            areas = ""
                             for(var i = 0;i<points.length;i++){
                               if(areasCheck !== points[i].pref){
                                 if(points[i].scale === 10){
@@ -249,7 +250,6 @@
                                 }else {
                                   var int = "不明"
                                 }
-                                areas = ""
                                 areas += points[i].pref + "(" + int + ")　"
                                 areaCheck = points[i].pref
                               }

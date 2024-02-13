@@ -84,7 +84,7 @@
                       for(var i = 0;i<areas.length;i++){
                         areaBody += areas[i].pref + "　"
                       }
-                      document.getElementById("body").textContent = "発表地域\n" + areaBody
+                      document.getElementById("body").innerHTML = "発表地域\n" + areaBody
                       eewN.play();
                     }
                   }else if(eew === ""){
@@ -105,7 +105,7 @@
                             document.getElementById("icon").textContent = "mail"
                             document.getElementById("kind").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                             if(data[0].cancelled === true && data[0].areas === ""){
-                              document.getElementById("body").textContent = "発表地域全域にて解除"
+                              document.getElementById("body").innerHTML = "発表地域全域にて解除"
                             }else if(data[0].cancelled === false){
                               var watch = ""
                               var warning = ""
@@ -159,7 +159,7 @@
                                 mesureWarning = "地域なし"
                               }
                               body = "発表地域\n大津波警報\n" + mesureWarning + "\n津波警報\n" + warning + "\n津波注意報\n" + watch
-                              document.getElementById("body").textContent = body
+                              document.getElementById("body").innerHTML = body
                             }
                             announceN.play();
                           }
@@ -286,22 +286,22 @@
                          }
                         if(type === "震度速報"){
                           var body = at + "頃" + hypocenter + "で最大" + maxi + "の地震が発生しました。<br\>津波の情報に留意してください。\n\n震度の観測情報(速報値)です。" + areas
-                          document.getElementById("body").textContent = body
+                          document.getElementById("body").innerHTML = body
                         }else if(type === "震源・震度に関する情報"){
                           var body = at + "頃" + hypocenter + "で最大" + maxi + "の地震が発生しました。\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
-                          document.getElementById("body").textContent = body
+                          document.getElementById("body").innerHTML = body
                         }else if(type === "震源に関する情報"){
                           var body = at + "頃" + hypocenter + "で地震が発生しました。\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。"
-                          document.getElementById("body").textContent = body
+                          document.getElementById("body").innerHTML = body
                         }else if(type === "各地の震度に関する情報"){
                           var body = at + "頃" + hypocenter + "で最大" + maxi + "の地震が発生しました。\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
-                          document.getElementById("body").textContent = body
+                          document.getElementById("body").innerHTML = body
                         }else if(type === "遠地地震に関する情報"){
                           var body = "気象庁より遠地地震に関する情報が発表されました。"
-                          document.getElementById("body").textContent = body
+                          document.getElementById("body").innerHTML = body
                         }else if(type === "Other"){
                           var body = "気象庁より地震の情報が発表されました。"
-                          document.getElementById("body").textContent = body
+                          document.getElementById("body").innerHTML = body
                         }
                         announceN.play();
                       }

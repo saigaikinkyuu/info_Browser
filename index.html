@@ -190,38 +190,38 @@
                           if(data[0].earthquake.domesticTsunami !== "None"){
                             tsunami = "大津波警報、津波警報、津波注意報が発表されています。"
                           }
-                          if(data[0].earthquake.depth){
-                            depth = data[0].earthquake.depth
+                          if(data[0].earthquake.hypocenter.depth){
+                            depth = data[0].earthquake.hypocenter.depth
                           }
-                          if(data[0].earthquake.magnitude){
-                            mag = data[0].earthquake.magnitude
+                          if(data[0].earthquake.hypocenter.magnitude){
+                            mag = data[0].earthquake.hypocenter.magnitude
                           }
-                          if(data[0].earthquake.name){
-                            hypocenter = data[0].earthquake.name
+                          if(data[0].earthquake.hypocenter.name){
+                            hypocenter = data[0].earthquake.hypocenter.name
                           }
-                          if(data[0].maxScale){
-                            if(data[0].maxScale === 10){
+                          if(data[0].earthquake.maxScale){
+                            if(data[0].earthquake.maxScale === 10){
                               maxi = "震度1"
-                            }else if(data[0].maxScale === 20){
+                            }else if(data[0].earthquake.maxScale === 20){
                               maxi = "震度2"
-                            }else if(data[0].maxScale === 30){
+                            }else if(data[0].earthquake.maxScale === 30){
                               maxi = "震度3"
-                            }else if(data[0].maxScale === 40){
+                            }else if(data[0].earthquake.maxScale === 40){
                               maxi = "震度4"
-                            }else if(data[0].maxScale === 45){
+                            }else if(data[0].earthquake.maxScale === 45){
                               maxi = "震度5-"
-                            }else if(data[0].maxScale === 50){
+                            }else if(data[0].earthquake.maxScale === 50){
                               maxi = "震度5+"
-                            }else if(data[0].maxScale === 55){
+                            }else if(data[0].earthquake.maxScale === 55){
                               maxi = "震度6-"
-                            }else if(data[0].maxScale === 60){
+                            }else if(data[0].earthquake.maxScale === 60){
                               maxi = "震度6+"
-                            }else if(data[0].maxScale === 70){
+                            }else if(data[0].earthquake.maxScale === 70){
                               maxi = "震度7"
                             }
                           }
-                          if(data[0].time){
-                            at = data[0].time
+                          if(data[0].earthquake.time){
+                            at = data[0].earthquake.time
                           }
                           if(data[0].points){
                             var points = data[0].points

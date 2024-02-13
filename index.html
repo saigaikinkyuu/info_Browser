@@ -161,7 +161,11 @@
                         }
                       }
                     }else if(tsunami === ""){
+                    if(data[0].id){
                       tsunami = data[0].id
+                    }else {
+                      tsunami = null
+                    }
                     }
                   });
               url = 'https://api.p2pquake.net/v2/history?codes=551&limit=1';

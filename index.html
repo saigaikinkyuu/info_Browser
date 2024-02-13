@@ -70,7 +70,7 @@
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                  if(eew !== data[0].id && eew !== ""){
+                  if(eew !== data[0].id){// && eew !== ""
                     eew = data[0].id;
                     if(num2 === true){
                       num4 = 2
@@ -93,7 +93,7 @@
                 .then(response => response.json())
                 .then(data => {
                   if(data[0]){
-                    if(tsunami !== data[0].id){// && tsunami !== ""
+                    if(tsunami !== data[0].id && tsunami !== ""){
                       tsunami = data[0].id;
                       if(data[0].area){
                           if(num2 === true){

@@ -93,49 +93,76 @@
                 .then(response => response.json())
                 .then(data => {
                   if(data[0]){
-                    if(tsunami !== data[0].id && tsunami !== ""){
+                    if(tsunami !== data[0].id){// && tsunami !== ""
                       tsunami = data[0].id;
                       if(data[0].area){
                           if(num2 === true){
                             num4 = 2
                             document.getElementById("kind").textContent = "TSUNAMI"
-                            if(data[0].cancelled === true){
+                            if(data[0].cancelled === true && data[0].areas === ""){
                               document.getElementById("body").textContent = "発表地域全域にて解除"
                             }else if(data[0].cancelled === false){
                               var watch = ""
                               var warning = ""
                               var mesureWarning = ""
+                              var height = ""
                               var areas = data[0].areas
+                              var body = ""
                               for(var i = 0;i<areas.length;i++){
                                 if(areas[i].grade === "Watch"){
-                                  watch += areas[0].name + "　"
-                                }else if(areas[i].grade === "Warning"){//更新最終
-                                  watch += areas[0].name + "　"
+                                  if(areas[i].maxHeight){
+                                    if(areas[i].maxHeight.description && areas[i].maxHeight.description !== ""){
+                                      height = areas[i].maxHeight.description
+                                    }else {
+                                      height = "--"
+                                    }
+                                  }else {
+                                    height = "--"
+                                  }
+                                  watch += areas[0].name + "(" + height + ")　"
+                                }else if(areas[i].grade === "Warning"){
+                                  if(areas[i].maxHeight){
+                                    if(areas[i].maxHeight.description && areas[i].maxHeight.description !== ""){
+                                      height = areas[i].maxHeight.description
+                                    }else {
+                                      height = "--"
+                                    }
+                                  }else {
+                                    height = "--"
+                                  }
+                                  warning += areas[0].name + "(" + height + ")　"
                                 }else if(areas[i].grade === "MajorWarning"){
-                                  watch += areas[0].name + "　"
+                                  if(areas[i].maxHeight){
+                                    if(areas[i].maxHeight.description && areas[i].maxHeight.description !== ""){
+                                      height = areas[i].maxHeight.description
+                                    }else {
+                                      height = "--"
+                                    }
+                                  }else {
+                                    height = "--"
+                                  }
+                                  mesureWarning += areas[0].name + "(" + height + ")　"
                                 }
                               }
-                              document.getElementById("body").textContent = ""
+                              if(watch === "" || watch === null){
+                                watch = "地域なし"
+                              }
+                              if(warning === "" || warning === null){
+                                warning = "地域なし"
+                              }
+                              if(mesureWarning === "" || mesureWarning === null){
+                                mesureWarning = "地域なし"
+                              }
+                              body = "発表地域\n大津波警報\n" + mesureWarning + "\n津波警報\n" + warning + "\n津波注意報\n" + watch
+                              document.getElementById("body").textContent = body
                             }
                             announceN.play();
                           }
-                        }else{
-                          document.getElementById("tsunami1").style.display = "none"
-                          document.getElementById("tsunami2").style.display = "none"
                         }
-                      }else{
-                        document.getElementById("tsunami1").style.display = "none"
-                        document.getElementById("tsunami2").style.display = "none"
                       }
                     }else if(tsunami === ""){
                       tsunami = data[0].id
-                    }else{
-                      document.getElementById("tsunami1").style.display = "none"
-                      document.getElementById("tsunami2").style.display = "none"
                     }
-                  }else{
-                    document.getElementById("tsunami1").style.display = "none"
-                    document.getElementById("tsunami2").style.display = "none"
                   }
                 });
               url = 'https://api.p2pquake.net/v2/history?codes=551&limit=1';
@@ -147,17 +174,88 @@
                       if(num2 === true){
                         num4 = 2
                         document.getElementById("kind").textContent = "QUAKE"
-                        document.getElementById("tsunami1").style.display = "none"
-                        document.getElementById("tsunami2").style.display = "none"
-                        document.getElementById("quake").style.display = "block"
-                        document.getElementById("tsunamiNotifycation").style.display = "none"
-                        document.getElementById("error").style.display = "none"
+                        var tsunami = "津波の心配はありません。"
+                        var depth = "《不明》"
+                        var mag = "《不明》"
+                        var maxi = "《不明》"
+                        var hypocenter = "《不明》"
+                        var areas = "《不明》"
+                        var at = "《不明》"
+                        if(data[0].earthquake){
+                          if(data[0].earthquake.domesticTsunami !== "None"){
+                            tsunami = "大津波警報、津波警報、津波注意報が発表されています。"
+                          }
+                          if(data[0].earthquake.depth){
+                            depth = data[0].earthquake.depth
+                          }
+                          if(data[0].earthquake.magnitude){
+                            mag = data[0].earthquake.magnitude
+                          }
+                          if(data[0].earthquake.name){
+                            hypocenter = data[0].earthquake.name
+                          }
+                          if(data[0].maxScale){
+                            if(data[0].maxScale === 10){
+                              maxi = "震度1"
+                            }else if(data[0].maxScale === 20){
+                              maxi = "震度2"
+                            }else if(data[0].maxScale === 30){
+                              maxi = "震度3"
+                            }else if(data[0].maxScale === 40){
+                              maxi = "震度4"
+                            }else if(data[0].maxScale === 45){
+                              maxi = "震度5-"
+                            }else if(data[0].maxScale === 50){
+                              maxi = "震度5+"
+                            }else if(data[0].maxScale === 55){
+                              maxi = "震度6-"
+                            }else if(data[0].maxScale === 60){
+                              maxi = "震度6+"
+                            }else if(data[0].maxScale === 70){
+                              maxi = "震度7"
+                            }
+                          }
+                          if(data[0].time){
+                            at = data[0].time
+                          }
+                          if(data[0].points){
+                            var points = data[0].points
+                            var areasCheck = ""
+                            for(var i = 0;i<points.length;i++){
+                              if(areasCheck !== points[i].pref){
+                                if(points[i].scale === 10){
+                                  var int = "震度1"
+                                }else if(points[i].scale === 20){
+                                  var int = "震度2"
+                                }else if(points[i].scale === 30){
+                                  var int = "震度3"
+                                }else if(points[i].scale === 40){
+                                  var int = "震度4"
+                                }else if(points[i].scale === 45){
+                                  var int = "震度5-"
+                                }else if(points[i].scale === 50){
+                                  var int = "震度5+"
+                                }else if(points[i].scale === 55){
+                                  var int = "震度6-"
+                                }else if(points[i].scale === 60){
+                                  var int = "震度6+"
+                                }else if(points[i].scale === 70){
+                                  var int = "震度7"
+                                }else {
+                                  var int = "不明"
+                                }
+                                areas += points[i].pref + "(" + int + ")　"
+                              }
+                            }
+                          }
+                          var body = at + "頃" + hypocenter + "で最大" + maxi + "の地震が発生しました。\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
+                          document.getElementById("body").textContent = body
+                        }
                         announceN.play();
                       }
                   }else if(quake === ""){
                     quake = data[0].id
                   }else{
-                    document.getElementById("quake").style.display = "none"
                   }
                 });
               if(num4 <= 2){

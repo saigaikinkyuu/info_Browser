@@ -14,8 +14,10 @@
       }
     </style>
     <div>
+      <div id="div" onclick="stop">
       <h1 id="kind"></h1>
       <p id="body" style="font-size: 20px;"></p>
+      </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.js" defer></script>
     <script>
@@ -285,21 +287,8 @@
           }
         }
       }
-      function eewStop(){
+      function stop(){
         num4 = 1
-        document.getElementById("eew").style.display = "none"
-      }
-       function tsunamiStop(id){
-        num4 = 1
-         if(id = 1){
-           document.getElementById("tsunami1").style.display = "none"
-         }else if(id = 2){
-           document.getElementById("tsunami2").style.display = "none"
-         }
-      }
-      function quakeStop(){
-        num4 = 1
-        document.getElementById("quake").style.display = "none"
       }
     </script>
   </body>

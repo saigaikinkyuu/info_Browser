@@ -182,7 +182,6 @@
                       if(num2 === true){
                         num4 = 2
                         document.getElementById("icon").textContent = "mail"
-                        document.getElementById("kind").textContent = "地震(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                         var tsunami = "津波の心配はありません。"
                         var depth = "《不明》"
                         var mag = "《不明》"
@@ -190,7 +189,28 @@
                         var hypocenter = "《不明》"
                         var areas = "《不明》"
                         var at = "《不明》"
-                        if(data[0].earthquake){
+                        var type = ""
+                        if(data[0].issue){
+                          if(data[0].issue.type === "ScalePrompt"){
+                            type = "震度速報"
+                          }else if(data[0].issue.type === "Destination"){
+                            type = "震源に関する情報"
+                          }else if(data[0].issue.type === "ScaleAndDestination"){
+                            type = "震源・震度に関する情報"
+                          }else if(data[0].issue.type === "DetailScale"){
+                            type = "各地の震度に関する情報"
+                          }else if(data[0].issue.type === "Foreign"){
+                            type = "遠地地震に関する情報"
+                          }else{
+                            type = "Other"
+                          }
+                          if(type !== "Other"){
+                            document.getElementById("kind").textContent = "地震[" + type + "](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                          }else {
+                            document.getElementById("kind").textContent = "地震[その他](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                          }
+                        }
+                        if(data[0].earthquake && type !== "遠地地震に関する情報" && type !== "Other"){
                           if(data[0].earthquake.domesticTsunami !== "None"){
                             tsunami = "大津波警報、津波警報、津波注意報が発表されています。"
                           }
@@ -263,7 +283,24 @@
                               }
                             }
                           }
+                         }
+                        if(type === "震度速報"){
+                          var body = at + "頃" + hypocenter + "で最大" + maxi + "の地震が発生しました。\n津波の情報に留意してください。\n\n震度の観測情報(速報値)です。" + areas
+                          document.getElementById("body").textContent = body
+                        }else if(type === "震源・震度に関する情報"){
                           var body = at + "頃" + hypocenter + "で最大" + maxi + "の地震が発生しました。\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
+                          document.getElementById("body").textContent = body
+                        }else if(type === "震源に関する情報"){
+                          var body = at + "頃" + hypocenter + "で地震が発生しました。\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。"
+                          document.getElementById("body").textContent = body
+                        }else if(type === "各地の震度に関する情報"){
+                          var body = at + "頃" + hypocenter + "で最大" + maxi + "の地震が発生しました。\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
+                          document.getElementById("body").textContent = body
+                        }else if(type === "遠地地震に関する情報"){
+                          var body = "気象庁より遠地地震に関する情報が発表されました。"
+                          document.getElementById("body").textContent = body
+                        }else if(type === "Other"){
+                          var body = "気象庁より地震の情報が発表されました。"
                           document.getElementById("body").textContent = body
                         }
                         announceN.play();

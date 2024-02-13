@@ -16,7 +16,7 @@
     </style>
     <div>
       <div id="div" onclick="stop()">
-        <div style="display: flex;"><span class="material-symbols-outlined" id="icon">mail</span><h1 id="kind"></h1></div>
+        <div style="display: flex;"><span class="material-symbols-outlined" id="icon" style="font-size: 20px;"></span><h1 id="kind"></h1></div>
         <p id="body" style="font-size: 20px;"></p>
       </div>
     </div>
@@ -78,7 +78,7 @@
                     if(num2 === true){
                       num4 = 2
                       document.getElementById("icon").textContent = "mail"
-                      document.getElementById("kind").textContent = "EEW(" + new Date().getHours() + "時" + new Date().getMInutes() + "分" + new Date().getSeconds() + "秒受信)"
+                      document.getElementById("kind").textContent = "EEW(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                       var areas = data[0].areas
                       var areaBody = ""
                       for(var i = 0;i<areas.length;i++){
@@ -103,7 +103,7 @@
                           if(num2 === true){
                             num4 = 2
                             document.getElementById("icon").textContent = "mail"
-                            document.getElementById("kind").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMInutes() + "分" + new Date().getSeconds() + "秒受信)"
+                            document.getElementById("kind").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                             if(data[0].cancelled === true && data[0].areas === ""){
                               document.getElementById("body").textContent = "発表地域全域にて解除"
                             }else if(data[0].cancelled === false){
@@ -182,7 +182,7 @@
                       if(num2 === true){
                         num4 = 2
                         document.getElementById("icon").textContent = "mail"
-                        document.getElementById("kind").textContent = "地震(" + new Date().getHours() + "時" + new Date().getMInutes() + "分" + new Date().getSeconds() + "秒受信)"
+                        document.getElementById("kind").textContent = "地震(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                         var tsunami = "津波の心配はありません。"
                         var depth = "《不明》"
                         var mag = "《不明》"

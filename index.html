@@ -322,7 +322,7 @@
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                  if(attend !== data[0].i && attend !== ""){//
+                  if(attend !== data[0].value && attend !== ""){//
                       attend = data[0].value;
                       if(num2 === true){
                         num4 = 2

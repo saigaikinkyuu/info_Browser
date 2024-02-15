@@ -318,6 +318,24 @@
                   }else{
                   }
                 });
+              url = 'https://script.google.com/macros/s/AKfycbyD8llwZGIAZ8Dqvs7uv0LgHjDR45oCj95OvP8LLzLCkg0JEeXWElrS9ex7GutPlB70/exec';
+              fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                  if(attend !== data[0].i && attend !== ""){//
+                      attend = data[0].value;
+                      if(num2 === true){
+                        num4 = 2
+                        document.getElementById("icon").textContent = "mail"
+                        document.getElementById("kind").textContent = "test"
+                        document.getElementById("bosy").textContent = "this passage is test.Do you see this passage?If you when this passage,this site couldn't made sound,You fix progrum."
+                        announceN.play();
+                      }
+                  }else if(quake === ""){
+                    attend = data[0].value
+                  }else{
+                  }
+                });
               if(num4 <= 2){
                 if(num4 !== 2){
                 num4 = 1

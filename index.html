@@ -318,21 +318,21 @@
                   }else{
                   }
                 });
-              url = 'https://script.google.com/macros/s/AKfycbyD8llwZGIAZ8Dqvs7uv0LgHjDR45oCj95OvP8LLzLCkg0JEeXWElrS9ex7GutPlB70/exec';
+              url = 'https://script.google.com/macros/s/AKfycbzWwdwhIWUxEW0jqVFZn1g4ycEU78HVrQC-ucsKd9U7gVK8vEfQ43LLTwusw4ilrLIkLA/exec';
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                  if(attend !== data[0].value && attend !== ""){//
-                      attend = data[0].value;
+                  if(attend !== data[0].Kind && attend !== ""){
+                      attend = data[0].Kind;
                       if(num2 === true){
                         num4 = 2
                         document.getElementById("icon").textContent = "mail"
-                        document.getElementById("kind").textContent = "test"
+                        document.getElementById("kind").textContent = data[0].Kind + "(" + data[0].Time + ")"
                         document.getElementById("body").textContent = "this passage is test.Do you see this passage?If you when this passage,this site couldn't made sound,You fix progrum."
                         announceN.play();
                       }
                   }else if(quake === ""){
-                    attend = data[0].value
+                    attend = data[0].Kind
                   }else{
                   }
                 });

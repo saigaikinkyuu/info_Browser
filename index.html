@@ -215,6 +215,7 @@
                             tsunami = "大津波警報、津波警報、津波注意報が発表されています。"
                           }
                           if(data[0].earthquake.hypocenter.depth){
+                            console.log(data[0].earthquake.hypocenter.depth)
                             if(data[0].earthquake.hypocenter.depth >= 10){
                               depth = data[0].earthquake.hypocenter.depth + "km"
                             }

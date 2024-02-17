@@ -44,7 +44,9 @@
       function check(){
         try{
           if(new Date().getMinutes() === 00 || new Date().getMinutes() === 10 || new Date().getMinutes() === 20 || new Date().getMinutes() === 30 || new Date().getMinutes() === 40 || new Date().getMinutes() === 50){
-            location.reload();
+            if(new Date().getSeconds() === 00 || new Date().getSeconds() === 01 || new Date().getSeconds() === 02 || new Date().getSeconds() === 03){
+              location.reload();
+            }
           }
           var announceN = new Howl({
             src: 'https://monitor.jkisyou.com/audio/announcement.wav',

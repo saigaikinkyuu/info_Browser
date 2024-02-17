@@ -217,7 +217,8 @@
                           if(data[0].earthquake.hypocenter.depth){
                             if(data[0].earthquake.hypocenter.depth >= 10){
                               depth = data[0].earthquake.hypocenter.depth + "km"
-                            }else if(data[0].earthquake.hypocenter.depth === 0){
+                            }
+                            if(data[0].earthquake.hypocenter.depth === 0){
                               depth = "ごく浅い"
                             }else {
                               depth = data[0].earthquake.hypocenter.depth

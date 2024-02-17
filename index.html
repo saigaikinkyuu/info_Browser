@@ -43,6 +43,9 @@
       error = false
       function check(){
         try{
+          if(new Date().getMinutes() === 00 || new Date().getMinutes() === 10 || new Date().getMinutes() === 20 || new Date().getMinutes() === 30 || new Date().getMinutes() === 40 || new Date().getMinutes() === 50){
+            location.reload();
+          }
           var announceN = new Howl({
             src: 'https://monitor.jkisyou.com/audio/announcement.wav',
             autoplay: false,

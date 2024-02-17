@@ -41,18 +41,6 @@
       var num2 = false;
       var num4 = 0
       error = false
-      function requestFullscreen(elem) {
-        // 全画面表示をリクエストするメソッドを取得
-        const method = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
-        if (method) {
-          method.call(elem); // 全画面表示をリクエスト
-        }
-      }
-
-      function openFullscreen() {
-        const elem = document.documentElement;
-        requestFullscreen(elem);
-      }
       function check(){
         try{
           var announceN = new Howl({
@@ -185,7 +173,7 @@
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                  if(quake !== data[0].id){// && quake !== ""
+                  if(quake !== data[0].id && quake !== ""){
                       quake = data[0].id;
                       if(num2 === true){
                         num4 = 2

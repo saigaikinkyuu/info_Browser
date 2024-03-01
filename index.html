@@ -178,9 +178,9 @@
                 .then(response => response.json())
                 .then(data => {
                   if(quake !== ""){
-                    var audio = false
-                  }else {
                     var audio = true
+                  }else {
+                    var audio = false
                   }
                   if(quake !== data[0].id){
                       quake = data[0].id;

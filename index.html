@@ -177,6 +177,11 @@
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
+                  if(quake !== ""){
+                    var audio = false
+                  }else {
+                    var audio = true
+                  }
                   if(quake !== data[0].id){
                       quake = data[0].id;
                       if(num2 === true){
@@ -305,7 +310,7 @@
                           var body = "気象庁より地震の情報が発表されました。"
                           document.getElementById("body").innerHTML = body
                         }
-                        if(quake !== ""){
+                        if(audio === true){
                           announceN.play();
                         }
                       }

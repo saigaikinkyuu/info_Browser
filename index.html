@@ -104,18 +104,7 @@
                 .then(data => {
                   if(data[0]){
                     if(tsunami !== data[0].id && tsunami !== ""){
-                      if(data[0].id){
-                        tsunami = data[0].id;
-                      }else {
-                        if(tsunami === ""){
-                          tsunami = "None";
-                          document.getElementById("icon-tsunami").textContent = "mail"
-                          document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒更新)"
-                          document.getElementById("body-tsunami").innerHTML = "津波警報等の発表はありません。"
-                        }else {
-                          tsunami = "None"
-                        }
-                      }
+                      tsunami = data[0].id;
                       if(data[0].area){
                           if(num2 === true){
                             num4 = 2
@@ -182,13 +171,15 @@
                           }
                         }
                       }
-                    }else if(tsunami === ""){
-                    if(data[0] === ""){
-                      tsunami = data[0].id
                     }else {
-                      tsunami = null
-                    }
-                    }
+                    if(tsunami === ""){
+                      tsunami = "None";
+                      document.getElementById("icon-tsunami").textContent = "mail"
+                      document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒更新)"
+                      document.getElementById("body-tsunami").innerHTML = "津波警報等の発表はありません。"
+                    }else {
+                      tsunami = "None"
+                    }}
                   });
               url = 'https://api.p2pquake.net/v2/history?codes=551&limit=1';
               fetch(url)
@@ -330,7 +321,7 @@
                         if(audioQuake === true){
                           announceN.play();
                         }else if(audioQuake === false){
-                          stop()
+                          stop(0)
                         }
                       }
                   }else{

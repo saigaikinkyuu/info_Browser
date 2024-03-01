@@ -177,12 +177,11 @@
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                  if(quake !== ""){
+                  if(quake !== "" && quake !== data[0].id){
                     var audioQuake = true
                   }else {
                     var audioQuake = false
                   }
-                  console.log(audioQuake)
                   if(quake !== data[0].id){
                       quake = data[0].id;
                       if(num2 === true){
@@ -313,6 +312,8 @@
                         }
                         if(audioQuake === true){
                           announceN.play();
+                        }else if(audioQuake === false){
+                          stop()
                         }
                       }
                   }else{

@@ -22,10 +22,16 @@
         font-style: normal;
       }
     </style>
-    <div>
-      <div id="div" onclick="stop()">
+    <div data-type="quake">
+      <div id="div" onclick="stop(0)">
         <div style="display: flex;"><span class="material-symbols-outlined" id="icon" style="font-size: 75px;"></span><h1 id="kind"></h1></div>
         <div id="body" style="font-size: 20px;white-space: pre;"></div>
+      </div>
+    </div>
+    <div data-type="tsunami">
+      <div id="div-tsunami" onclick="stop(1)">
+        <div style="display: flex;"><span class="material-symbols-outlined" id="icon-tsunami" style="font-size: 75px;"></span><h1 id="kind-tsunami"></h1></div>
+        <div id="body-tsunami" style="font-size: 20px;white-space: pre;"></div>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.js" defer></script>
@@ -98,14 +104,25 @@
                 .then(data => {
                   if(data[0]){
                     if(tsunami !== data[0].id && tsunami !== ""){
-                      tsunami = data[0].id;
+                      if(data[0].id){
+                        tsunami = data[0].id;
+                      }else {
+                        if(tsunami === ""){
+                          tsunami = "None";
+                          document.getElementById("icon-tsunami").textContent = "mail"
+                          document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒更新)"
+                          document.getElementById("body-tsunami").innerHTML = "津波警報等の発表はありません。"
+                        }else {
+                          tsunami = "None"
+                        }
+                      }
                       if(data[0].area){
                           if(num2 === true){
                             num4 = 2
-                            document.getElementById("icon").textContent = "mail"
-                            document.getElementById("kind").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                            document.getElementById("icon-tsunami").textContent = "mail"
+                            document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                             if(data[0].cancelled === true && data[0].areas === ""){
-                              document.getElementById("body").innerHTML = "発表地域全域にて解除"
+                              document.getElementById("body-tsunami").innerHTML = "発表地域全域にて解除"
                             }else if(data[0].cancelled === false){
                               var watch = ""
                               var warning = ""
@@ -159,7 +176,7 @@
                                 mesureWarning = "地域なし"
                               }
                               body = "発表地域\n大津波警報\n" + mesureWarning + "\n津波警報\n" + warning + "\n津波注意報\n" + watch
-                              document.getElementById("body").innerHTML = body
+                              document.getElementById("body-tsunami").innerHTML = body
                             }
                             announceN.play();
                           }
@@ -359,8 +376,12 @@
           }
         }
       }
-      function stop(){
-        document.getElementById("icon").textContent = "drafts"
+      function stop(num){
+        if(num === 0){
+          document.getElementById("icon").textContent = "drafts"
+        }else if(num === 1){
+          document.getElementById("icon-tsunami").textContent = "drafts"
+        }
         num4 = 1
       }
     </script>

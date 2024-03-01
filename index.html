@@ -178,10 +178,11 @@
                 .then(response => response.json())
                 .then(data => {
                   if(quake !== ""){
-                    var audio = true
+                    var audioQuake = true
                   }else {
-                    var audio = false
+                    var audioQuake = false
                   }
+                  console.log(audioQuake)
                   if(quake !== data[0].id){
                       quake = data[0].id;
                       if(num2 === true){
@@ -310,7 +311,7 @@
                           var body = "気象庁より地震の情報が発表されました。"
                           document.getElementById("body").innerHTML = body
                         }
-                        if(audio === true){
+                        if(audioQuake === true){
                           announceN.play();
                         }
                       }

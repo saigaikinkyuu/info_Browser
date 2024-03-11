@@ -63,6 +63,51 @@
             onload: () =>{if(num4 !== 2){announceN.stop()}},
             onend: () =>{if(num4 === 2){announceN.play()}}
           });
+          var quake1 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake1.mp3',
+            autoplay: false,
+            volume: 0.6,
+            loop: false,
+            onplay: () =>{if(num4 !== 2){announceN.pause()}},
+            onload: () =>{if(num4 !== 2){announceN.stop()}},
+            onend: () =>{if(num4 === 2){announceN.play()}}
+          });
+          var quake2 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake2.mp3',
+            autoplay: false,
+            volume: 0.6,
+            loop: false,
+            onplay: () =>{if(num4 !== 2){announceN.pause()}},
+            onload: () =>{if(num4 !== 2){announceN.stop()}},
+            onend: () =>{if(num4 === 2){announceN.play()}}
+          });
+          var quake3 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake3.mp3',
+            autoplay: false,
+            volume: 0.6,
+            loop: false,
+            onplay: () =>{if(num4 !== 2){announceN.pause()}},
+            onload: () =>{if(num4 !== 2){announceN.stop()}},
+            onend: () =>{if(num4 === 2){announceN.play()}}
+          });
+          var quake4 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake4.mp3',
+            autoplay: false,
+            volume: 0.6,
+            loop: false,
+            onplay: () =>{if(num4 !== 2){announceN.pause()}},
+            onload: () =>{if(num4 !== 2){announceN.stop()}},
+            onend: () =>{if(num4 === 2){announceN.play()}}
+          });
+          var quake5 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake5.mp3',
+            autoplay: false,
+            volume: 0.6,
+            loop: false,
+            onplay: () =>{if(num4 !== 2){announceN.pause()}},
+            onload: () =>{if(num4 !== 2){announceN.stop()}},
+            onend: () =>{if(num4 === 2){announceN.play()}}
+          });
           var eewN = new Howl({
             src: 'https://monitor.jkisyou.com/audio/eew.wav',
             autoplay: false,
@@ -319,7 +364,23 @@
                           document.getElementById("body").innerHTML = body
                         }
                         if(audioQuake === true){
-                          announceN.play();
+                          if(type !== "震源に関する情報" && type !== "遠地地震に関する情報" && type !== "Other"){
+                            if(maxi === "震度5-"){
+                              Quake1.play();
+                            }else if(maxi === "震度5+"){
+                              Quake2.play();
+                            }else if(maxi === "震度6-"){
+                              Quake3.play();
+                            }else if(maxi === "震度6+"){
+                              Quake4.play();
+                            }else if(maxi === "震度7"){
+                              Quake5.play();
+                            }else {
+                              announceN.play();
+                            }
+                          }else {
+                            announceN.play();
+                          }
                         }else if(audioQuake === false){
                           stop(0)
                         }

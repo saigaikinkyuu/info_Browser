@@ -189,28 +189,28 @@
                   document.getElementById("kind").textContent = "地震検知[第" + data.report_num + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                   document.getElementById("body").innerHTML = new Date().getHours() + "時" + new Date().getMinutes() + "分頃、" + data.region_name + "にて、推定最大震度" + data.calcintensity + "の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ" + data.depth + "、マグニチュード" + data.magunitude
                   if(data.calcintensity === "1" || data.result.message){
-                    suitei1.play()
+                    Suitei1.play()
                   }else if(data.calcintensity === "2"){
-                    suitei2.play()
+                    Suitei2.play()
                   }else if(data.calcintensity === "3"){
-                    suitei3.play()
+                    Suitei3.play()
                   }else if(data.calcintensity === "4"){
-                    suitei4.play()
+                    Suitei4.play()
                   }else if(data.calcintensity === "5弱"){
-                    suitei5.play()
+                    Suitei5.play()
                   }else if(data.calcintensity === "5強"){
-                    suitei6.play()
+                    Suitei6.play()
                   }else if(data.calcintensity === "6弱"){
-                    suitei7.play()
+                    Suitei7.play()
                   }else if(data.calcintensity === "6強"){
-                    suitei8.play()
+                    Suitei8.play()
                   }else if(data.calcintensity === "7"){
-                    suitei9.play()
+                    Suitei9.play()
                   }
                 }else {
                   document.getElementById("kind").textContent = "地震検知[最終報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                   document.getElementById("body").innerHTML = "先程の地震検知情報は、キャンセルされました。"
-                  suiteiB.play()
+                  SuiteiB.play()
                 }
               }
             });

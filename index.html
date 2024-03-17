@@ -177,7 +177,8 @@
             volume: 1,
             loop: false
           });
-          url = 'http://www.kmoni.bosai.go.jp/webservice/hypo/eew/' + new Date().getFullYear() + ("0" + new Date().getMonth()).slice(-2) + ("0" + new Date().getDate()).slice(-2) + ("0" + new Date().getHours()).slice(-2) + ("0" + new Date().getMinutes()).slice(-2) + ("0" + new Date().getSeconds()).slice(-2) + T + '.json';
+          url = 'http://www.kmoni.bosai.go.jp/webservice/hypo/eew/' + new Date().getFullYear() + ("0" + new Date().getMonth()).slice(-2) + ("0" + new Date().getDate()).slice(-2) + ("0" + new Date().getHours()).slice(-2) + ("0" + new Date().getMinutes()).slice(-2) + ("0" + new Date().getSeconds()).slice(-2) + '.json';
+          console.log(url)
           fetch(url)
             .then(response => response.json())
             .then(data => {

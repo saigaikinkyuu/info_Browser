@@ -182,12 +182,12 @@
           fetch(url)
             .then(response => response.json())
             .then(data => {
-              if(data.result.message !== "データがありません"){
+              if(data.result.message === "データがありません"){
                 document.getElementById("icon").textContent = "mail"
                 if(is_cancel === false){
                   document.getElementById("kind").textContent = "地震検知[第" + data.report_num + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                   document.getElementById("body").innerHTML = new Date().getHours() + "時" + new Date().getMinutes() + "分頃、" + data.region_name + "にて、推定最大震度" + data.calcintensity + "の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ" + data.depth + "、マグニチュード" + data.magunitude
-                  if(data.calcintensity === "1"){
+                  if(data.calcintensity === "1" || data.result.message){
                     suitei1.play()
                   }else if(data.calcintensity === "2"){
                     suitei2.play()

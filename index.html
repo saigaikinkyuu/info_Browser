@@ -178,10 +178,10 @@
             loop: false
           });
           url = 'https://script.google.com/macros/s/AKfycbxLOyg03WTPyMbKRP6lGOdDvgrkZPYmFx2-uH_kHuLf5QZVNuKZ9UvN9suO_t_bt8j0/exec';
-          console.log(url)
           fetch(url)
             .then(response => response.json())
             .then(data => {
+              console.log(data)
               if(data.result.message === "データがありません" && eew === ""){
                 document.getElementById("icon").textContent = "mail"
                 if(is_cancel === false){

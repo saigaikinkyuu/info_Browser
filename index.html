@@ -177,7 +177,7 @@
             volume: 1,
             loop: false
           });
-          url = 'http://www.kmoni.bosai.go.jp/webservice/hypo/eew/' + new Date().getFullYear() + ("0" + new Date().getMounth()).slice(-2) + ("0" + new Date().getDate()).slice(-2) + ("0" + new Date().getHours()).slice(-2) + ("0" + new Date().getMinutes()).slice(-2) + ("0" + new Date().getSeconds()).slice(-2) + '.json';
+          url = 'http://www.kmoni.bosai.go.jp/webservice/hypo/eew/' + new Date().getFullYear() + ("0" + new Date().getMonth()).slice(-2) + ("0" + new Date().getDate()).slice(-2) + ("0" + new Date().getHours()).slice(-2) + ("0" + new Date().getMinutes()).slice(-2) + ("0" + new Date().getSeconds()).slice(-2) + '.json';
           fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -511,12 +511,9 @@
         }
         }catch(e){
           console.error(e.message + e.lineNumber)
-          document.getElementById("eew").style.display = "none"
-          document.getElementById("tsunami1").style.display = "none"
-          document.getElementById("tsunami2").style.display = "none"
-          document.getElementById("quake").style.display = "none"
-          document.getElementById("tsunamiNotifycation").style.display = "none"
-          document.getElementById("error").style.display = "block"
+          document.getElementById("icon").textContent = "error"
+          document.getElementById("kind").textContent = "エラー"
+          document.getElementById("body").textContent = "現在、エラーが発生しております。\nエラーの詳細。" + e.message
           announceN.play();
           function errorStop(){
             announceN.stop();

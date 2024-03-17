@@ -177,12 +177,13 @@
             volume: 1,
             loop: false
           });
+          if(eew === ""){
           url = 'https://script.google.com/macros/s/AKfycbxLOyg03WTPyMbKRP6lGOdDvgrkZPYmFx2-uH_kHuLf5QZVNuKZ9UvN9suO_t_bt8j0/exec';
           fetch(url)
             .then(response => response.json())
             .then(data => {
               console.log(data)
-              if(data.result.message === "データがありません" && eew === ""){
+              if(data.result.message === "データがありません"){
                 document.getElementById("icon").textContent = "mail"
                 if(is_cancel === false){
                   document.getElementById("kind").textContent = "地震検知[第" + data.report_num + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
@@ -213,6 +214,7 @@
                 }
               }
             });
+          }
           num++
           if(num2 === false || num2 === true){
               num = 0;

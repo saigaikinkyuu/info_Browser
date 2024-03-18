@@ -177,8 +177,7 @@
             volume: 1,
             loop: false
           });
-          url = 'http://www.kmoni.bosai.go.jp/webservice/hypo/eew/20240318184903.json';
-          fetch(url)
+          fetch('http://www.kmoni.bosai.go.jp/webservice/hypo/eew/20240318184903.json')
             .then(response => response.json())
             .then(data => {
               if(data.result.message !== "データがありません"){

@@ -184,28 +184,28 @@
             .then(data => {
               forecast = "S"
               console.log(forecast)
-              if(data.realTimeData.hypoInfo){
+              if(data.hypoInfo){
                 document.getElementById("icon").textContent = "mail"
-                if(data.realTimeData.hypoInfo.items[0].is_cancel === false || data.realTimeData.hypoInfo.items[0].is_cancel === ""){
-                  document.getElementById("kind").textContent = "地震検知[第" + data.realTimeData.hypoInfo.items[0].reportNum + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
-                  document.getElementById("body").innerHTML = new Date().getHours() + "時" + new Date().getMinutes() + "分頃、" + data.realTimeData.hypoInfo.items[0].regionName + "にて、推定最大震度" + data.realTimeData.hypoInfo.items[0].calcintensity + "の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ" + data.realTimeData.hypoInfo.items[0].depth + "、マグニチュード" + data.realTimeData.hypoInfo.items[0].magunitude
-                  if(data.realTimeData.hypoInfo.items[0].calcintensity === "1"){
+                if(data.hypoInfo.items[0].is_cancel === false || data.hypoInfo.items[0].is_cancel === ""){
+                  document.getElementById("kind").textContent = "地震検知[第" + data.hypoInfo.items[0].reportNum + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                  document.getElementById("body").innerHTML = new Date().getHours() + "時" + new Date().getMinutes() + "分頃、" + data.hypoInfo.items[0].regionName + "にて、推定最大震度" + data.hypoInfo.items[0].calcintensity + "の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ" + data.hypoInfo.items[0].depth + "、マグニチュード" + data.hypoInfo.items[0].magunitude
+                  if(data.hypoInfo.items[0].calcintensity === "1"){
                     Suitei1.play()
-                  }else if(data.realTimeData.hypoInfo.items[0].calcintensity === "2"){
+                  }else if(data.hypoInfo.items[0].calcintensity === "2"){
                     Suitei2.play()
-                  }else if(data.realTimeData.hypoInfo.items[0].calcintensity === "3"){
+                  }else if(data.hypoInfo.items[0].calcintensity === "3"){
                     Suitei3.play()
-                  }else if(data.realTimeData.hypoInfo.items[0].calcintensity === "4"){
+                  }else if(data.hypoInfo.items[0].calcintensity === "4"){
                     Suitei4.play()
-                  }else if(data.realTimeData.hypoInfo.items[0].calcintensity === "5-"){
+                  }else if(data.hypoInfo.items[0].calcintensity === "5-"){
                     Suitei5.play()
-                  }else if(data.realTimeData.hypoInfo.items[0].calcintensity === "5+"){
+                  }else if(data.hypoInfo.items[0].calcintensity === "5+"){
                     Suitei6.play()
-                  }else if(data.realTimeData.hypoInfo.items[0].calcintensity === "6-"){
+                  }else if(data.hypoInfo.items[0].calcintensity === "6-"){
                     Suitei7.play()
-                  }else if(data.realTimeData.hypoInfo.items[0].calcintensity === "6+"){
+                  }else if(data.hypoInfo.items[0].calcintensity === "6+"){
                     Suitei8.play()
-                  }else if(data.realTimeData.hypoInfo.items[0].calcintensity === "7"){
+                  }else if(data.hypoInfo.items[0].calcintensity === "7"){
                     Suitei9.play()
                   }
                 }else {

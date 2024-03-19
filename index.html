@@ -37,6 +37,7 @@
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.js" defer></script>
     <script>
       window.setInterval(check, 3000);
+      window.setInterval(quakeNews, 1000);
       var attend = "";
       var eew = "";
       var tsunami = "";
@@ -47,6 +48,104 @@
       var num2 = false;
       var num4 = 0
       error = false
+      function quakeNews(){
+          var Suitei1 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake推定1.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
+          var Suitei2 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake推定2.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
+          var Suitei3 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake推定3.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
+          var Suitei4 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake推定4.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
+          var Suitei5 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake推定5.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
+          var Suitei6 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake推定6.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
+          var Suitei7 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake推定7.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
+          var Suitei8 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake推定8.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
+          var Suitei9 = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake推定9.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
+          var SuiteiB = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Quake推定B.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
+          fetch('https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + '/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + ("0" + new Date().getHours()).slice(-2) + ("0" + new Date().getMinutes()).slice(-2) + ("0" + (new Date().getSeconds()-1)).slice(-2) + '.json')
+            .then(response => response.json())
+            .then(data => {
+              forecast = "S"
+              console.log(data.hypoInfo.items)
+              if(data.hypoInfo !== null){
+                document.getElementById("icon").textContent = "mail"
+                if(data.hypoInfo.items[0].isCancel === "false" || data.hypoInfo.items[0].isCancel === ""){
+                  document.getElementById("kind").textContent = "地震検知[第" + data.hypoInfo.items[0].reportNum + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                  document.getElementById("body").innerHTML = new Date().getHours() + "時" + new Date().getMinutes() + "分頃、" + data.hypoInfo.items[0].regionName + "にて、推定最大震度" + data.hypoInfo.items[0].calcintensity + "の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ" + data.hypoInfo.items[0].depth + "、マグニチュード" + data.hypoInfo.items[0].magnitude
+                  if(data.hypoInfo.items[0].calcintensity === "1"){
+                    Suitei1.play()
+                  }else if(data.hypoInfo.items[0].calcintensity === "2"){
+                    Suitei2.play()
+                  }else if(data.hypoInfo.items[0].calcintensity === "3"){
+                    Suitei3.play()
+                  }else if(data.hypoInfo.items[0].calcintensity === "4"){
+                    Suitei4.play()
+                  }else if(data.hypoInfo.items[0].calcintensity === "5-"){
+                    Suitei5.play()
+                  }else if(data.hypoInfo.items[0].calcintensity === "5+"){
+                    Suitei6.play()
+                  }else if(data.hypoInfo.items[0].calcintensity === "6-"){
+                    Suitei7.play()
+                  }else if(data.hypoInfo.items[0].calcintensity === "6+"){
+                    Suitei8.play()
+                  }else if(data.hypoInfo.items[0].calcintensity === "7"){
+                    Suitei9.play()
+                  }
+                }else {
+                  document.getElementById("kind").textContent = "地震検知[最終報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                  document.getElementById("body").innerHTML = "先程の地震検知情報は、キャンセルされました。"
+                  SuiteiB.play()
+                }
+              }
+            });
+      }
       function check(){
         try{
           if(new Date().getMinutes() === 05 || new Date().getMinutes() === 15 || new Date().getMinutes() === 25 || new Date().getMinutes() === 35 || new Date().getMinutes() === 45 || new Date().getMinutes() === 55){
@@ -117,102 +216,6 @@
             onload: () =>{if(num4 !== 2){eewN.stop()}},
             onend: () =>{if(num4 === 2){eewN.play()}}
           });
-          var Suitei1 = new Howl({
-            src: 'https://monitor.jkisyou.com/audio/Quake推定1.mp3',
-            autoplay: false,
-            volume: 1,
-            loop: false
-          });
-          var Suitei2 = new Howl({
-            src: 'https://monitor.jkisyou.com/audio/Quake推定2.mp3',
-            autoplay: false,
-            volume: 1,
-            loop: false
-          });
-          var Suitei3 = new Howl({
-            src: 'https://monitor.jkisyou.com/audio/Quake推定3.mp3',
-            autoplay: false,
-            volume: 1,
-            loop: false
-          });
-          var Suitei4 = new Howl({
-            src: 'https://monitor.jkisyou.com/audio/Quake推定4.mp3',
-            autoplay: false,
-            volume: 1,
-            loop: false
-          });
-          var Suitei5 = new Howl({
-            src: 'https://monitor.jkisyou.com/audio/Quake推定5.mp3',
-            autoplay: false,
-            volume: 1,
-            loop: false
-          });
-          var Suitei6 = new Howl({
-            src: 'https://monitor.jkisyou.com/audio/Quake推定6.mp3',
-            autoplay: false,
-            volume: 1,
-            loop: false
-          });
-          var Suitei7 = new Howl({
-            src: 'https://monitor.jkisyou.com/audio/Quake推定7.mp3',
-            autoplay: false,
-            volume: 1,
-            loop: false
-          });
-          var Suitei8 = new Howl({
-            src: 'https://monitor.jkisyou.com/audio/Quake推定8.mp3',
-            autoplay: false,
-            volume: 1,
-            loop: false
-          });
-          var Suitei9 = new Howl({
-            src: 'https://monitor.jkisyou.com/audio/Quake推定9.mp3',
-            autoplay: false,
-            volume: 1,
-            loop: false
-          });
-          var SuiteiB = new Howl({
-            src: 'https://monitor.jkisyou.com/audio/Quake推定B.mp3',
-            autoplay: false,
-            volume: 1,
-            loop: false
-          });
-          fetch('https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + '/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + ("0" + new Date().getHours()).slice(-2) + ("0" + new Date().getMinutes()).slice(-2) + ("0" + new Date().getSeconds()).slice(-2) + '.json')
-            .then(response => response.json())
-            .then(data => {
-              forecast = "S"
-              console.log(data.hypoInfo.items)
-              if(data.hypoInfo !== null){
-                document.getElementById("icon").textContent = "mail"
-                if(data.hypoInfo.items[0].isCancel === "false" || data.hypoInfo.items[0].isCancel === ""){
-                  document.getElementById("kind").textContent = "地震検知[第" + data.hypoInfo.items[0].reportNum + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
-                  document.getElementById("body").innerHTML = new Date().getHours() + "時" + new Date().getMinutes() + "分頃、" + data.hypoInfo.items[0].regionName + "にて、推定最大震度" + data.hypoInfo.items[0].calcintensity + "の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ" + data.hypoInfo.items[0].depth + "、マグニチュード" + data.hypoInfo.items[0].magnitude
-                  if(data.hypoInfo.items[0].calcintensity === "1"){
-                    Suitei1.play()
-                  }else if(data.hypoInfo.items[0].calcintensity === "2"){
-                    Suitei2.play()
-                  }else if(data.hypoInfo.items[0].calcintensity === "3"){
-                    Suitei3.play()
-                  }else if(data.hypoInfo.items[0].calcintensity === "4"){
-                    Suitei4.play()
-                  }else if(data.hypoInfo.items[0].calcintensity === "5-"){
-                    Suitei5.play()
-                  }else if(data.hypoInfo.items[0].calcintensity === "5+"){
-                    Suitei6.play()
-                  }else if(data.hypoInfo.items[0].calcintensity === "6-"){
-                    Suitei7.play()
-                  }else if(data.hypoInfo.items[0].calcintensity === "6+"){
-                    Suitei8.play()
-                  }else if(data.hypoInfo.items[0].calcintensity === "7"){
-                    Suitei9.play()
-                  }
-                }else {
-                  document.getElementById("kind").textContent = "地震検知[最終報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
-                  document.getElementById("body").innerHTML = "先程の地震検知情報は、キャンセルされました。"
-                  SuiteiB.play()
-                }
-              }
-            });
           num++
           if(num2 === false || num2 === true){
               num = 0;

@@ -184,7 +184,7 @@
             .then(data => {
               forecast = "S"
               console.log(forecast)
-              if(data.hypoInfo){
+              if(data.hypoInfo.item){
                 document.getElementById("icon").textContent = "mail"
                 if(data.hypoInfo.items[0].is_cancel === false || data.hypoInfo.items[0].is_cancel === ""){
                   document.getElementById("kind").textContent = "地震検知[第" + data.hypoInfo.items[0].reportNum + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"

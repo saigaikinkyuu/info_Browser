@@ -177,6 +177,7 @@
             volume: 1,
             loop: false
           });
+          function notRun(){
           fetch('http://www.kmoni.bosai.go.jp/webservice/hypo/eew/20240318184903.json')
             .then(response => response.json())
             .then(data => {
@@ -211,6 +212,7 @@
                 }
               }
             });
+          }
           num++
           if(num2 === false || num2 === true){
               num = 0;

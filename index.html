@@ -42,7 +42,6 @@
       var tsunami = "";
       var quake = "";
       var tsunamiNotify = "";
-      var forecast = ""
       var error = "";
       var num = 0;
       var num2 = false;
@@ -178,8 +177,7 @@
             volume: 1,
             loop: false
           });
-          if(forecast === ""){
-          fetch('https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/20210213/20210213230833.json')
+          fetch('https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/' + new Date().getFullYear() + ("0" + new Date().getMonth()).slice(-2) + ("0" + new Date().getDate).slice(-2) + '/' + new Date().getFullYear() + ("0" + new Date().getMonth()).slice(-2) + ("0" + new Date().getDate()).slice(-2) + ("0" + new Date().getHours).slice(-2) + ("0" + new Date().getMinutes).slice(-2) + ("0" + new Date().getSeconds) + '.json')
             .then(response => response.json())
             .then(data => {
               forecast = "S"
@@ -215,7 +213,6 @@
                 }
               }
             });
-          }
           num++
           if(num2 === false || num2 === true){
               num = 0;

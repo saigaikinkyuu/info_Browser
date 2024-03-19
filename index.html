@@ -183,6 +183,7 @@
             .then(response => response.json())
             .then(data => {
               forecast = "S"
+              console.log(forecast)
               if(data.realTimeData.hypoInfo){
                 document.getElementById("icon").textContent = "mail"
                 if(data.realTimeData.hypoInfo.items[0].is_cancel === false || data.realTimeData.hypoInfo.items[0].is_cancel === ""){

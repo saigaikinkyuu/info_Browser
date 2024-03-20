@@ -112,7 +112,6 @@
           fetch('https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + '/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + ("0" + new Date().getHours()).slice(-2) + ("0" + new Date().getMinutes()).slice(-2) + ("0" + (new Date().getSeconds()-3)).slice(-2) + '.json')
             .then(response => response.json())
             .then(data => {
-              console.log(data.hypoInfo.items)
               if(data.hypoInfo !== null){
                 document.getElementById("icon").textContent = "mail"
                 if(data.hypoInfo.items[0].isCancel === "false" || data.hypoInfo.items[0].isCancel === ""){

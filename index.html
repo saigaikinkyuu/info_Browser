@@ -114,18 +114,18 @@
         var timeSecond = new Date().getSeconds()-4
         if(timeSecond < 0){
           if(timeMinute-1 < 0){
-            //("0" + timeHour-1).slice(-2) + "59" + 
-          var timeHMS = (60+ timeSecond)
+            //
+          var timeHMS = ("0" + timeHour-1).slice(-2) + "59" + (60+ timeSecond)
           }else{
-            //("0" + timeHour).slice(-2) + ("0" + (timeMinute-1)).slice(-2) + 
-          var timeHMS = (60 + timeSecond)
+            //
+          var timeHMS = ("0" + timeHour).slice(-2) + ("0" + (timeMinute-1)).slice(-2) + (60 + timeSecond)
           }
         }else {
-          //("0" + timeHour).slice(-2) + ("0" + (timeMinute-1)).slice(-2) + 
-          var timeHMS = ("0" + timeSecond).slice(-2)
+          //
+          var timeHMS =("0" + timeHour).slice(-2) + ("0" + (timeMinute-1)).slice(-2) +  ("0" + timeSecond).slice(-2)
         }
-        //'https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + '/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + timeHMS + '.json'
-          fetch('https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/20240321/202403210908' + timeHMS + '.json')
+        //
+          fetch('https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + '/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + timeHMS + '.json')
             .then(response => response.json())
             .then(data => {
               if(data.hypoInfo !== null){

@@ -23,13 +23,13 @@
       }
     </style>
     <div data-type="quake">
-      <div id="div" onclick="stop(0)">
+      <div id="div" onclick="stop()">
         <div style="display: flex;"><span class="material-symbols-outlined" id="icon" style="font-size: 75px;"></span><h1 id="kind"></h1></div>
         <div id="body" style="font-size: 20px;white-space: pre-line;"></div>
       </div>
     </div>
     <div data-type="tsunami">
-      <div id="div-tsunami" onclick="stop(1)">
+      <div id="div-tsunami" onclick="stop()">
         <div style="display: flex;"><span class="material-symbols-outlined" id="icon-tsunami" style="font-size: 75px;"></span><h1 id="kind-tsunami"></h1></div>
         <div id="body-tsunami" style="font-size: 20px;white-space: pre-line;"></div>
       </div>
@@ -699,6 +699,7 @@
         }
       }
       function stop(){
+        document.getElementById("icon").textContent = "drafts"
         if (audio_buffer_nodes[current_audio]) {
           audio_buffer_nodes[audioFiles[current_audio].stop();
           delete audio_buffer_nodes[audioFiles[current_audio]; // ノードを削除することで再生を停止します

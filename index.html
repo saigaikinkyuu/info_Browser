@@ -558,14 +558,6 @@
           }
         }
       }
-      function stop(num){
-        if(num === 0){
-          document.getElementById("icon").textContent = "drafts"
-        }else if(num === 1){
-          document.getElementById("icon-tsunami").textContent = "drafts"
-        }
-        num4 = 1
-      }
         
       })();
  
@@ -574,6 +566,14 @@
         audio_buffer_node = audio_ctx.createBufferSource();
         audio_buffer_node.buffer = audio_buffer;
         audio_buffer_node.connect(audio_ctx.destination);
+      }
+      function stop(num){
+        if(num === 0){
+          document.getElementById("icon").textContent = "drafts"
+        }else if(num === 1){
+          document.getElementById("icon-tsunami").textContent = "drafts"
+        }
+        num4 = 1
       }
     </script>
   </body>

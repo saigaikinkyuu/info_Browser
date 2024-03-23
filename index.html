@@ -35,18 +35,8 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.js" defer></script>
+    <script src="https://monitor.jkisyou.com/audio.js" defer></script>
     <script>
-      // ユーザーに音声の許可を求める
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(function(stream) {
-          // ユーザーが許可した場合の処理
-          console.log('ユーザーが音声の許可を与えました。');
-        })
-        .catch(function(err) {
-          // ユーザーが拒否した場合やエラーが発生した場合の処理
-          console.error('音声の許可を得られませんでした: ', err);
-        });
-
       window.setInterval(check, 3000);
       window.setInterval(quakeNews, 1000);
       var attend = "";

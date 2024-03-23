@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://code.jquery.com/jquery-1.6.4.js"></script>
+    <title>JMA-INFO受信端末</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <style>
+      img{
+        height: 345px;
+        padding-top: 2px;
+      }
+      *{
+        font-family: "Zen Kaku Gothic New", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+    </style>
+    <div data-type="quake">
+      <div id="div" onclick="stop(0)">
+        <div style="display: flex;"><span class="material-symbols-outlined" id="icon" style="font-size: 75px;"></span><h1 id="kind"></h1></div>
+        <div id="body" style="font-size: 20px;white-space: pre-line;"></div>
+      </div>
+    </div>
+    <div data-type="tsunami">
+      <div id="div-tsunami" onclick="stop(1)">
+        <div style="display: flex;"><span class="material-symbols-outlined" id="icon-tsunami" style="font-size: 75px;"></span><h1 id="kind-tsunami"></h1></div>
+        <div id="body-tsunami" style="font-size: 20px;white-space: pre-line;"></div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.js" defer></script>
+    <script>
+            const audio_ctx = new AudioContext();
+      let audio_buffers = {}; // 音声ファイルを格納するオブジェクト
+      let audio_buffer_nodes = {}; // 音声ノードを格納するオブジェクト
+      let current_audio = null; // 現在再生中の音声を示す変数
+
+      // 音声ファイルのURLと名前の配列
+      const audioFiles = [
+        ["https://monitor.jkisyou.com/audio/Quake推定1.mp3", "Suitei1"],
+        ["https://monitor.jkisyou.com/audio/Quake推定2.mp3", "Suitei2"],
+        ["https://monitor.jkisyou.com/audio/Quake推定3.mp3", "Suitei3"],
+        ["https://monitor.jkisyou.com/audio/Quake推定4.mp3", "Suitei4"],
+        ["https://monitor.jkisyou.com/audio/Quake推定5.mp3", "Suitei5"],
+        ["https://monitor.jkisyou.com/audio/Quake推定6.mp3", "Suitei6"],
+        ["https://monitor.jkisyou.com/audio/Quake推定7.mp3", "Suitei7"],
+        ["https://monitor.jkisyou.com/audio/Quake推定8.mp3", "Suitei8"],
+        ["https://monitor.jkisyou.com/audio/Quake推定9.mp3", "Suitei9"],
+        ["https://monitor.jkisyou.com/audio/Quake推定B.mp3", "SuiteiB"],
+        ["https://monitor.jkisyou.com/audio/announcement.wav", "announceN"],
+        ["https://monitor.jkisyou.com/audio/Quake1.mp3", "quake1"],
+        ["https://monitor.jkisyou.com/audio/Quake2.mp3", "quake2"],
+        ["https://monitor.jkisyou.com/audio/Quake3.mp3", "quake3"],
+        ["https://monitor.jkisyou.com/audio/Quake4.mp3", "quake4"],
+        ["https://monitor.jkisyou.com/audio/Quake5.mp3", "quake5"],
+        ["https://monitor.jkisyou.com/audio/eew.wav", "eewN"],
+        ["https://monitor.jkisyou.com/audio/Test.mp3", "Test"]
+      ];
+
+      // 音声ファイルの読み込みとノードの設定
+      async function loadAudioFiles() {
+        for (const [url, name] of audioFiles) {
+          const response = await fetch(url);
+          const response_buffer = await response.arrayBuffer();
+          const buffer = await audio_ctx.decodeAudioData(response_buffer);
+          audio_buffers[name] = buffer;
+        }
+      }
+
+      // 音声ファイルの読み込み完了後の処理
+      loadAudioFiles().then(() => {
+      window.setInterval(check, 3000);
+      window.setInterval(quakeNews, 1000);
+      var attend = "";
+      var eew = "";
+      var tsunami = "";
+      var quake = "";
+      var tsunamiNotify = "";
+      var error = "";
+      var num = 0;
+      var num2 = false;
+      var num4 = 0
+      error = false
+        var timeHour = new Date().getHours()
+        var timeMinute = new Date().getMinutes()
+        var timeSecond = new Date().getSeconds()-4
+        if(timeSecond < 0){
+          if(timeMinute-1 < 0){
+            //
+          var timeHMS = ("0" + timeHour-1).slice(-2) + "59" + (60+ timeSecond)
+          }else{
+            //
+          var timeHMS = ("0" + timeHour).slice(-2) + ("0" + (timeMinute-1)).slice(-2) + (60 + timeSecond)
+          }
+        }else {
+          //
+          var timeHMS =("0" + timeHour).slice(-2) + ("0" + (timeMinute-1)).slice(-2) +  ("0" + timeSecond).slice(-2)
+        }
+        //
+          fetch('https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + '/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + timeHMS + '.json')
+            .then(response => response.json())
+            .then(data => {
+              if(data.hypoInfo !== null){
+                document.getElementById("icon").textContent = "mail"
+                if(data.hypoInfo.items[0].isCancel === "false" || data.hypoInfo.items[0].isCancel === ""){
+                  document.getElementById("kind").textContent = "地震検知[第" + data.hypoInfo.items[0].reportNum + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                  document.getElementById("body").innerHTML = new Date().getHours() + "時" + new Date().getMinutes() + "分頃、" + data.hypoInfo.items[0].regionName + "にて、推定最大震度" + data.hypoInfo.items[0].calcintensity + "の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ" + data.hypoInfo.items[0].depth + "、マグニチュード" + data.hypoInfo.items[0].magnitude
+                  if(data.hypoInfo.items[0].calcintensity === "1"){
+                    // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[0];
+                      playAudio(audioName);
+                  }else if(data.hypoInfo.items[0].calcintensity === "2"){
+                    // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[1];
+                      playAudio(audioName);
+                  }else if(data.hypoInfo.items[0].calcintensity === "3"){
+                    // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[2];
+                      playAudio(audioName);
+                  }else if(data.hypoInfo.items[0].calcintensity === "4"){
+                    // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[3];
+                      playAudio(audioName);
+                  }else if(data.hypoInfo.items[0].calcintensity === "5-"){
+                    // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[4];
+                      playAudio(audioName);
+                  }else if(data.hypoInfo.items[0].calcintensity === "5+"){
+                    // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[5];
+                      playAudio(audioName);
+                  }else if(data.hypoInfo.items[0].calcintensity === "6-"){
+                    // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[6];
+                      playAudio(audioName);
+                  }else if(data.hypoInfo.items[0].calcintensity === "6+"){
+                    // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[7];
+                      playAudio(audioName);
+                  }else if(data.hypoInfo.items[0].calcintensity === "7"){
+                    // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[8];
+                      playAudio(audioName);
+                  }
+                }else {
+                  document.getElementById("kind").textContent = "地震検知[最終報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                  document.getElementById("body").innerHTML = "先程の地震検知情報は、キャンセルされました。"
+                  // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[9];
+                      playAudio(audioName);
+                }
+              }
+            });
+      }
+      function check(){
+        try{
+          if(new Date().getMinutes() === 05 || new Date().getMinutes() === 15 || new Date().getMinutes() === 25 || new Date().getMinutes() === 35 || new Date().getMinutes() === 45 || new Date().getMinutes() === 55){
+            if(new Date().getSeconds() === 00 || new Date().getSeconds() === 01 || new Date().getSeconds() === 02 || new Date().getSeconds() === 03){
+              location.reload();
+            }
+          }
+          num++
+          if(num2 === false || num2 === true){
+              num = 0;
+              url = 'https://api.p2pquake.net/v2/history?codes=556';
+              fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                  if(eew !== data[0].id && eew !== ""){
+                    eew = data[0].id;
+                    if(num2 === true){
+                      num4 = 2
+                      document.getElementById("icon").textContent = "mail"
+                      document.getElementById("kind").textContent = "EEW(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                      var areas = data[0].areas
+                      var areaBody = ""
+                      for(var i = 0;i<areas.length;i++){
+                        areaBody += areas[i].pref + "　"
+                      }
+                      document.getElementById("body").innerHTML = "発表地域\n" + areaBody
+                      // 初回再生のために準備を行う
+                    prepareAudioBufferNode();
+        
+                    // body をクリックしたときの処理を定義
+                      // 現在再生中の音声を停止
+                      if (current_audio) {
+                        audio_buffer_nodes[current_audio].stop();
+                      }
+                      // クリックした位置に対応する音声を再生
+                      const audioName = audioFiles[11];
+                      playAudio(audioName);
+                    }
+                  }else if(eew === ""){
+                    eew = data[0].id
+                  }
+                });
+              //津波(tsunami1,tsunami2)
+              url = 'https://api.p2pquake.net/v2/history?codes=552&limit=1';
+              fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                  if(data[0]){
+                    if(tsunami !== data[0].id && tsunami !== ""){
+                      tsunami = data[0].id;
+                      if(data[0].area){
+                          if(num2 === true){
+                            num4 = 2
+                            document.getElementById("icon-tsunami").textContent = "mail"
+                            document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                            if(data[0].cancelled === true && data[0].areas === ""){
+                              document.getElementById("body-tsunami").innerHTML = "発表地域全域にて解除"
+                            }else if(data[0].cancelled === false){
+                              var watch = ""
+                              var warning = ""
+                              var mesureWarning = ""
+                              var height = ""
+                              var areas = data[0].areas
+                              var body = ""
+                              for(var i = 0;i<areas.length;i++){
+                                if(areas[i].grade === "Watch"){
+                                  if(areas[i].maxHeight){
+                                    if(areas[i].maxHeight.description && areas[i].maxHeight.description !== ""){
+                                      height = areas[i].maxHeight.description
+                                    }else {
+                                      height = "--"
+                                    }
+                                  }else {
+                                    height = "--"
+                                  }
+                                  watch += areas[0].name + "(" + height + ")　"
+                                }else if(areas[i].grade === "Warning"){
+                                  if(areas[i].maxHeight){
+                                    if(areas[i].maxHeight.description && areas[i].maxHeight.description !== ""){
+                                      height = areas[i].maxHeight.description
+                                    }else {
+                                      height = "--"
+                                    }
+                                  }else {
+                                    height = "--"
+                                  }
+                                  warning += areas[0].name + "(" + height + ")　"
+                                }else if(areas[i].grade === "MajorWarning"){
+                                  if(areas[i].maxHeight){
+                                    if(areas[i].maxHeight.description && areas[i].maxHeight.description !== ""){
+                                      height = areas[i].maxHeight.description
+                                    }else {
+                                      height = "--"
+                                    }
+                                  }else {
+                                    height = "--"
+                                  }
+                                  mesureWarning += areas[0].name + "(" + height + ")　"
+                                }
+                              }
+                              if(watch === "" || watch === null){
+                                watch = "地域なし"
+                              }
+                              if(warning === "" || warning === null){
+                                warning = "地域なし"
+                              }
+                              if(mesureWarning === "" || mesureWarning === null){
+                                mesureWarning = "地域なし"
+                              }
+                              body = "発表地域\n大津波警報\n" + mesureWarning + "\n津波警報\n" + warning + "\n津波注意報\n" + watch
+                              document.getElementById("body-tsunami").innerHTML = body
+                            }
+                            // 初回再生のために準備を行う
+                            prepareAudioBufferNode();
+        
+                            // body をクリックしたときの処理を定義
+                           // 現在再生中の音声を停止
+                           if (current_audio) {
+                             audio_buffer_nodes[current_audio].stop();
+                           }
+                           // クリックした位置に対応する音声を再生
+                           const audioName = audioFiles[10];
+                           playAudio(audioName);
+                          }
+                        }
+                      }
+                    }else {
+                    if(tsunami === ""){
+                      tsunami = "None";
+                      document.getElementById("icon-tsunami").textContent = "drafts"
+                      document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒更新)"
+                      document.getElementById("body-tsunami").innerHTML = "津波警報等の発表はありません。"
+                    }else {
+                      tsunami = "None"
+                    }}
+                  });
+              url = 'https://api.p2pquake.net/v2/history?codes=551&limit=1';
+              fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                  if(quake !== "" && quake !== data[0].id){
+                    var audioQuake = true
+                  }else {
+                    var audioQuake = false
+                  }
+                  if(quake !== data[0].id){
+                      quake = data[0].id;
+                      if(num2 === true){
+                        num4 = 2
+                        document.getElementById("icon").textContent = "mail"
+                        var tsunami = "津波の心配はありません。"
+                        var depth = "《不明》"
+                        var mag = "《不明》"
+                        var maxi = "《不明》"
+                        var hypocenter = "《不明》"
+                        var areas = "《不明》"
+                        var at = "《不明》"
+                        var type = ""
+                        if(data[0].issue){
+                          if(data[0].issue.type === "ScalePrompt"){
+                            type = "震度速報"
+                          }else if(data[0].issue.type === "Destination"){
+                            type = "震源に関する情報"
+                          }else if(data[0].issue.type === "ScaleAndDestination"){
+                            type = "震源・震度に関する情報"
+                          }else if(data[0].issue.type === "DetailScale"){
+                            type = "各地の震度に関する情報"
+                          }else if(data[0].issue.type === "Foreign"){
+                            type = "遠地地震に関する情報"
+                          }else{
+                            type = "Other"
+                          }
+                          if(type !== "Other"){
+                            document.getElementById("kind").textContent = "地震[" + type + "](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                          }else {
+                            document.getElementById("kind").textContent = "地震[その他](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                          }
+                        }
+                        if(data[0].earthquake && type !== "遠地地震に関する情報" && type !== "Other"){
+                          if(data[0].earthquake.domesticTsunami !== "None"){
+                            tsunami = "大津波警報、津波警報、津波注意報が発表されています。"
+                          }
+                          if(data[0].earthquake.hypocenter.depth || data[0].earthquake.hypocenter.depth === 0){
+                            if(data[0].earthquake.hypocenter.depth >= 10){
+                              depth = data[0].earthquake.hypocenter.depth + "km"
+                            }else if(data[0].earthquake.hypocenter.depth === 0){
+                              depth = "ごく浅い"
+                            }else {
+                              depth = data[0].earthquake.hypocenter.depth
+                            }
+                          }
+                          if(data[0].earthquake.hypocenter.magnitude){
+                            mag = data[0].earthquake.hypocenter.magnitude
+                          }
+                          if(data[0].earthquake.hypocenter.name){
+                            hypocenter = data[0].earthquake.hypocenter.name
+                          }
+                          if(data[0].earthquake.maxScale){
+                            if(data[0].earthquake.maxScale === 10){
+                              maxi = "震度1"
+                            }else if(data[0].earthquake.maxScale === 20){
+                              maxi = "震度2"
+                            }else if(data[0].earthquake.maxScale === 30){
+                              maxi = "震度3"
+                            }else if(data[0].earthquake.maxScale === 40){
+                              maxi = "震度4"
+                            }else if(data[0].earthquake.maxScale === 45){
+                              maxi = "震度5-"
+                            }else if(data[0].earthquake.maxScale === 50){
+                              maxi = "震度5+"
+                            }else if(data[0].earthquake.maxScale === 55){
+                              maxi = "震度6-"
+                            }else if(data[0].earthquake.maxScale === 60){
+                              maxi = "震度6+"
+                            }else if(data[0].earthquake.maxScale === 70){
+                              maxi = "震度7"
+                            }
+                          }
+                          if(data[0].earthquake.time){
+                            at = data[0].earthquake.time
+                          }
+                          if(data[0].points){
+                            var points = data[0].points
+                            var areasCheck = ""
+                            areas = ""
+                            for(var i = 0;i<points.length;i++){
+                              if(areasCheck !== points[i].pref){
+                                if(points[i].scale === 10){
+                                  var int = "震度1"
+                                }else if(points[i].scale === 20){
+                                  var int = "震度2"
+                                }else if(points[i].scale === 30){
+                                  var int = "震度3"
+                                }else if(points[i].scale === 40){
+                                  var int = "震度4"
+                                }else if(points[i].scale === 45){
+                                  var int = "震度5-"
+                                }else if(points[i].scale === 50){
+                                  var int = "震度5+"
+                                }else if(points[i].scale === 55){
+                                  var int = "震度6-"
+                                }else if(points[i].scale === 60){
+                                  var int = "震度6+"
+                                }else if(points[i].scale === 70){
+                                  var int = "震度7"
+                                }else {
+                                  var int = "不明"
+                                }
+                                areas += points[i].pref + "(" + int + ")　"
+                                areasCheck = points[i].pref
+                              }
+                            }
+                          }
+                         }
+                        if(type === "震度速報"){
+                          var body = at + "頃、最大" + maxi + "の地震が発生しました。<br>津波の情報に留意してください。\n\n震度の観測情報(速報値)です。" + areas
+                          document.getElementById("body").innerHTML = body
+                        }else if(type === "震源・震度に関する情報"){
+                          var body = at + "頃" + hypocenter + "で最大" + maxi + "の地震が発生しました。\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
+                          document.getElementById("body").innerHTML = body
+                        }else if(type === "震源に関する情報"){
+                          var body = at + "頃" + hypocenter + "で地震が発生しました。\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。"
+                          document.getElementById("body").innerHTML = body
+                        }else if(type === "各地の震度に関する情報"){
+                          var body = at + "頃" + hypocenter + "で最大" + maxi + "の地震が発生しました。\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
+                          document.getElementById("body").innerHTML = body
+                        }else if(type === "遠地地震に関する情報"){
+                          var body = "気象庁より遠地地震に関する情報が発表されました。"
+                          document.getElementById("body").innerHTML = body
+                        }else if(type === "Other"){
+                          var body = "気象庁より地震の情報が発表されました。"
+                          document.getElementById("body").innerHTML = body
+                        }
+                        if(audioQuake === true){
+                          if(type !== "震源に関する情報" && type !== "遠地地震に関する情報" && type !== "Other"){
+                            if(maxi === "震度5-"){
+                              // 初回再生のために準備を行う
+                              prepareAudioBufferNode();
+        
+                              // body をクリックしたときの処理を定義
+                              // 現在再生中の音声を停止
+                              if (current_audio) {
+                                audio_buffer_nodes[current_audio].stop();
+                              }
+                              // クリックした位置に対応する音声を再生
+                              const audioName = audioFiles[12];
+                              playAudio(audioName);
+                            }else if(maxi === "震度5+"){
+                              
+                              // 初回再生のために準備を行う
+                              prepareAudioBufferNode();
+        
+                              // body をクリックしたときの処理を定義
+                              // 現在再生中の音声を停止
+                              if (current_audio) {
+                                audio_buffer_nodes[current_audio].stop();
+                              }
+                              // クリックした位置に対応する音声を再生
+                              const audioName = audioFiles[13];
+                              playAudio(audioName);
+                            }else if(maxi === "震度6-"){
+                              
+                              // 初回再生のために準備を行う
+                              prepareAudioBufferNode();
+        
+                              // body をクリックしたときの処理を定義
+                              // 現在再生中の音声を停止
+                              if (current_audio) {
+                                audio_buffer_nodes[current_audio].stop();
+                              }
+                              // クリックした位置に対応する音声を再生
+                              const audioName = audioFiles[14];
+                              playAudio(audioName);
+                            }else if(maxi === "震度6+"){
+                              
+                              // 初回再生のために準備を行う
+                              prepareAudioBufferNode();
+        
+                              // body をクリックしたときの処理を定義
+                              // 現在再生中の音声を停止
+                              if (current_audio) {
+                                audio_buffer_nodes[current_audio].stop();
+                              }
+                              // クリックした位置に対応する音声を再生
+                              const audioName = audioFiles[15];
+                              playAudio(audioName);
+                            }else if(maxi === "震度7"){
+                              
+                              // 初回再生のために準備を行う
+                              prepareAudioBufferNode();
+        
+                              // body をクリックしたときの処理を定義
+                              // 現在再生中の音声を停止
+                              if (current_audio) {
+                                audio_buffer_nodes[current_audio].stop();
+                              }
+                              // クリックした位置に対応する音声を再生
+                              const audioName = audioFiles[16];
+                              playAudio(audioName);
+                            }else {
+                              
+                              // 初回再生のために準備を行う
+                              prepareAudioBufferNode();
+        
+                              // body をクリックしたときの処理を定義
+                              // 現在再生中の音声を停止
+                              if (current_audio) {
+                                audio_buffer_nodes[current_audio].stop();
+                              }
+                              // クリックした位置に対応する音声を再生
+                              const audioName = audioFiles[10];
+                              playAudio(audioName);
+                            }
+                          }else {
+                            
+                              // 初回再生のために準備を行う
+                              prepareAudioBufferNode();
+        
+                              // body をクリックしたときの処理を定義
+                              // 現在再生中の音声を停止
+                              if (current_audio) {
+                                audio_buffer_nodes[current_audio].stop();
+                              }
+                              // クリックした位置に対応する音声を再生
+                              const audioName = audioFiles[10];
+                              playAudio(audioName);
+                          }
+                        }else if(audioQuake === false){
+                          stop(0)
+                        }
+                      }
+                  }else{
+                  }
+                });
+              url = 'https://script.google.com/macros/s/AKfycbzWwdwhIWUxEW0jqVFZn1g4ycEU78HVrQC-ucsKd9U7gVK8vEfQ43LLTwusw4ilrLIkLA/exec';
+              fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                  if(attend !== data[0].Kind && attend !== ""){
+                      attend = data[0].Kind;
+                      if(num2 === true){
+                        num4 = 2
+                        document.getElementById("icon").textContent = "mail"
+                        document.getElementById("kind").textContent = "【訓練】地震検知(第一報)[" + data[0].Time + "]"
+                        document.getElementById("body").textContent = "訓練。訓練です。" + new Date().getHours() + "時" + new Date().getMinutes() + "分頃、東京湾にて、推定最大震度1の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ50km、マグニチュード3.2"
+                        // 初回再生のために準備を行う
+                        prepareAudioBufferNode();
+                        // body をクリックしたときの処理を定義
+                        // 現在再生中の音声を停止
+                        if (current_audio) {
+                          audio_buffer_nodes[current_audio].stop();
+                        }
+                        // クリックした位置に対応する音声を再生
+                        const audioName = audioFiles[17];
+                        playAudio(audioName);
+                      }
+                  }else if(attend === ""){
+                    attend = data[0].Kind
+                    console.log(attend)
+                  }else{
+                  }
+                });
+              if(num4 <= 2){
+                if(num4 !== 2){
+                num4 = 1
+                }
+                num2 = true;
+              }
+        }
+        }catch(e){
+          console.error(e.message + e.lineNumber)
+          document.getElementById("icon").textContent = "error"
+          document.getElementById("kind").textContent = "エラー"
+          document.getElementById("body").textContent = "現在、エラーが発生しております。\nエラーの詳細。" + e.message
+          // 初回再生のために準備を行う
+          prepareAudioBufferNode();
+          // body をクリックしたときの処理を定義
+          // 現在再生中の音声を停止
+          if (current_audio) {
+            audio_buffer_nodes[current_audio].stop();
+          }
+          // クリックした位置に対応する音声を再生
+          const audioName = audioFiles[10];
+          playAudio(audioName);
+          function errorStop(){
+            // 初回再生のために準備を行う
+            prepareAudioBufferNode();
+            // body をクリックしたときの処理を定義
+            // 現在再生中の音声を停止
+            if (current_audio) {
+              audio_buffer_nodes[current_audio].stop();
+            }
+            // クリックした位置に対応する音声を再生
+            const audioName = audioFiles[10];
+            playAudio(audioName);
+          }
+        }
+      }
+      });
+
+      // 音声再生のための関数
+      function playAudio(name) {
+        audio_buffer_nodes[name] = audio_ctx.createBufferSource();
+        audio_buffer_nodes[name].buffer = audio_buffers[name];
+        audio_buffer_nodes[name].connect(audio_ctx.destination);
+        audio_buffer_nodes[name].start(0);
+        current_audio = name;
+      }
+
+      // 音源再生のために準備を行う
+      function prepareAudioBufferNode() {
+        for (const name in audio_buffers) {
+          audio_buffer_nodes[name] = audio_ctx.createBufferSource();
+          audio_buffer_nodes[name].buffer = audio_buffers[name];
+          audio_buffer_nodes[name].connect(audio_ctx.destination);
+        }
+      }
+      function stop(num){
+        if(num === 0){
+          document.getElementById("icon").textContent = "drafts"
+        }else if(num === 1){
+          document.getElementById("icon-tsunami").textContent = "drafts"
+        }
+        num4 = 1
+      }
+    </script>
+  </body>
+</html>

@@ -37,6 +37,19 @@
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.js" defer></script>
     <script src="https://monitor.jkisyou.com/audio.js"></script>
     <script>
+      const audio_ctx = new AudioContext();
+      let audio_buffer = null;
+      let audio_buffer_node = null;
+ 
+      (async () => {
+        // fetch で sound.mp3 ファイルをダウンロードして ArrayBuffer を取得
+        const response = await fetch('https://monitor.jkisyou.com/audio/Test.mp3')
+        const response_buffer = await response.arrayBuffer();
+ 
+        // ArrayBuffer をデコードして AudioBuffer オブジェクトを取得
+        audio_buffer = await audio_ctx.decodeAudioData(response_buffer);
+        // 初回再生のために準備を行う
+        prepareAudioBufferNode();
       window.setInterval(check, 3000);
       window.setInterval(quakeNews, 1000);
       var attend = "";
@@ -519,7 +532,7 @@
                         document.getElementById("icon").textContent = "mail"
                         document.getElementById("kind").textContent = "【訓練】地震検知(第一報)[" + data[0].Time + "]"
                         document.getElementById("body").textContent = "訓練。訓練です。" + new Date().getHours() + "時" + new Date().getMinutes() + "分頃、東京湾にて、推定最大震度1の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ50km、マグニチュード3.2"
-                        Test.play();
+                        audio_buffer_node.start(0);
                       }
                   }else if(attend === ""){
                     attend = data[0].Kind
@@ -552,6 +565,15 @@
           document.getElementById("icon-tsunami").textContent = "drafts"
         }
         num4 = 1
+      }
+        
+      })();
+ 
+      // 音源再生のために準備を行う
+      function prepareAudioBufferNode() {
+        audio_buffer_node = audio_ctx.createBufferSource();
+        audio_buffer_node.buffer = audio_buffer;
+        audio_buffer_node.connect(audio_ctx.destination);
       }
     </script>
   </body>

@@ -700,7 +700,7 @@
       }
       function stop(){
         document.getElementById("icon").textContent = "drafts"
-        if (audio_buffer_nodes[current_audio]) {
+        if (audio_buffer_nodes[current_audio] && current_audio !== null) {
           audio_buffer_nodes[audioFiles[current_audio].stop()
           audio_buffer_nodes[name] = null; // ノードを null に設定して再生を停止します
           current_audio = null; // 現在再生中の音声を null に設定します

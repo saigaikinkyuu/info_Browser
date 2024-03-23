@@ -701,8 +701,8 @@
       function stop(){
         document.getElementById("icon").textContent = "drafts"
         if (audio_buffer_nodes[current_audio]) {
-          audio_buffer_nodes[audioFiles[current_audio].stop()
-          delete audio_buffer_nodes[audioFiles[current_audio]; // ノードを削除することで再生を停止します
+          audio_buffer_nodes[audioFiles[current_audio].stop();
+          audio_buffer_nodes[name] = null; // ノードを null に設定して再生を停止します
           current_audio = null; // 現在再生中の音声を null に設定します
         }
       }

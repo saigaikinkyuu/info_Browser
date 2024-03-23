@@ -230,6 +230,12 @@
             onload: () =>{if(num4 !== 2){eewN.stop()}},
             onend: () =>{if(num4 === 2){eewN.play()}}
           });
+          var eewN = new Howl({
+            src: 'https://monitor.jkisyou.com/audio/Test.mp3',
+            autoplay: false,
+            volume: 1,
+            loop: false
+          });
           num++
           if(num2 === false || num2 === true){
               num = 0;
@@ -510,9 +516,9 @@
                       if(num2 === true){
                         num4 = 2
                         document.getElementById("icon").textContent = "mail"
-                        document.getElementById("kind").textContent = data[0].Kind + "(" + data[0].Time + ")"
-                        document.getElementById("body").textContent = "this passage is test.Do you see this passage?If you when this passage,this site couldn't made sound,You fix progrum."
-                        announceN.play();
+                        document.getElementById("kind").textContent = "【訓練】地震検知(第一報)[" + data[0].Time + "]"
+                        document.getElementById("body").textContent = "訓練。訓練です。" + new Date().getHours() + "時" + new Date().getMinutes() + "分頃、東京湾にて、推定最大震度1の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ50km、マグニチュード3.2"
+                        Test.play();
                       }
                   }else if(attend === ""){
                     attend = data[0].Kind

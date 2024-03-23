@@ -620,6 +620,7 @@
                   if(attend !== data[0].Kind && attend !== ""){
                       attend = data[0].Kind;
                       if(num2 === true){
+                        console.log(data[0].Kind)
                         num4 = 2
                         document.getElementById("icon").textContent = "mail"
                         document.getElementById("kind").textContent = "【訓練】地震検知(第一報)[" + data[0].Time + "]"
@@ -637,7 +638,6 @@
                       }
                   }else if(attend === ""){
                     attend = data[0].Kind
-                    console.log(attend)
                   }else{
                   }
                 });
@@ -681,11 +681,10 @@
 
       // 音声再生のための関数
       function playAudio(name) {
-        audio_buffer_nodes[name] = audio_ctx.createBufferSource();
-        audio_buffer_nodes[name].buffer = audio_buffers[name];
-        audio_buffer_nodes[name].connect(audio_ctx.destination);
-        audio_buffer_nodes[name].start(0);
-        current_audio = name;
+        const source = audio_ctx.createBufferSource();
+        source.buffer = audio_buffers[name];
+        source.connect(audio_ctx.destination);
+        source.start(0);
       }
 
       // 音源再生のために準備を行う

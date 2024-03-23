@@ -697,12 +697,11 @@
         }
       }
       function stop(num){
-        if(num === 0){
-          document.getElementById("icon").textContent = "drafts"
-        }else if(num === 1){
-          document.getElementById("icon-tsunami").textContent = "drafts"
+        if (audio_buffer_nodes[name]) {
+          audio_buffer_nodes[name].stop();
+          delete audio_buffer_nodes[name]; // ノードを削除することで再生を停止します
+          current_audio = null; // 現在再生中の音声を null に設定します
         }
-        num4 = 1
       }
     </script>
   </body>

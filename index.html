@@ -690,7 +690,8 @@
         }
         source.start(0);
         if(stopFlag === true){
-          source.stop()
+          source.stop(0)
+          current_audio = ""
           stopFlag = false
         }
       }

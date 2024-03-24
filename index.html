@@ -604,6 +604,7 @@
                           }
                         }else if(audioQuake === false){
                           stop(0)
+                          stopFlag = false
                         }
                       }
                   }else{
@@ -685,7 +686,7 @@
         }
         source.start(0);
         if(stopFlag === true){
-          source.stop(0)
+          source.stop()
           current_audio = ""
           stopFlag = false
         }

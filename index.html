@@ -686,7 +686,7 @@
         }
         source.start(0);
         if(stopFlag === true){
-          source.stop()
+          source.stop(0)
           current_audio = ""
           stopFlag = false
         }
@@ -704,7 +704,7 @@
         document.getElementById("icon").textContent = "drafts"
         stopFlag = true
         console.log(stopFlag)
-        source.stop()
+        source.stop(0)
       }
     </script>
   </body>

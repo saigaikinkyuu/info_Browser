@@ -76,8 +76,6 @@
 
       // 音声ファイルの読み込み完了後の処理
       loadAudioFiles().then(() => {
-      const audioName = audioFiles[10][1];
-      playAudio(audioName,10);
       window.setInterval(check, 3000);
       window.setInterval(quakeNews, 1000);
       var attend = "";

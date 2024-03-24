@@ -36,7 +36,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.js" defer></script>
     <script>
-      var stopFlag = false
+      var stopFlag = true
       const audio_ctx = new AudioContext();
       let audio_buffers = {}; // 音声ファイルを格納するオブジェクト
       let audio_buffer_nodes = {}; // 音声ノードを格納するオブジェクト
@@ -702,9 +702,11 @@
       }
       function stop(){
         document.getElementById("icon").textContent = "drafts"
-        stopFlag = true
         console.log(stopFlag)
-        source.stop(0)
+        if(stopFlag === false){
+          source.stop(0)
+        }
+        stopFlag = true
       }
     </script>
   </body>

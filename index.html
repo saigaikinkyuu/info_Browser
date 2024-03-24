@@ -686,21 +686,16 @@
 
       // 音声再生のための関数
       function playAudio(name,audio_num) {
-        if(stopFlag){
-          if(stopFlag === false){
-            current_audio = audioFiles[audio_num][1]
-            const source = audio_ctx.createBufferSource();
-            source.buffer = audio_buffers[name];
-            source.connect(audio_ctx.destination);
-            if(audio_num === 10){
-              source.loop = true;
-            }
-            source.start(0);
-          }else if(stopFlag === true){
-            source.stop(0)
-            current_audio = ""
-            stopFlag = false
-          }
+        current_audio = audioFiles[audio_num][1]
+        const source = audio_ctx.createBufferSource();
+        source.buffer = audio_buffers[name];
+        source.connect(audio_ctx.destination);
+        if(audio_num === 10){
+          source.loop = true;
+        }
+        source.start(0);
+        if(audio_num === 10){
+          setTimeout('source.stop(0)', 6000);
         }
       }
 
@@ -714,9 +709,6 @@
       }
       function stop(){
         document.getElementById("icon").textContent = "drafts"
-        console.log(stopFlag)
-        stopFlag = true
-        playAudio("",20)
       }
     </script>
   </body>

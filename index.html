@@ -36,7 +36,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.js" defer></script>
     <script>
-      var stopFlag = true
+      var stopFlag = null
       const audio_ctx = new AudioContext();
       let audio_buffers = {}; // 音声ファイルを格納するオブジェクト
       let audio_buffer_nodes = {}; // 音声ノードを格納するオブジェクト
@@ -603,8 +603,17 @@
                               playAudio(audioName,10);
                           }
                         }else if(audioQuake === false){
-                          stop(0)
-                          stopFlag = false
+                          // 初回再生のために準備を行う
+                          prepareAudioBufferNode();
+        
+                          // body をクリックしたときの処理を定義
+                          // 現在再生中の音声を停止
+                          if (current_audio) {
+                            audio_buffer_nodes[current_audio].stop();
+                          }
+                          // クリックした位置に対応する音声を再生
+                          const audioName = audioFiles[10][1];
+                          playAudio(audioName,10);
                         }
                       }
                   }else{
@@ -677,18 +686,21 @@
 
       // 音声再生のための関数
       function playAudio(name,audio_num) {
-        current_audio = audioFiles[audio_num][1]
-        const source = audio_ctx.createBufferSource();
-        source.buffer = audio_buffers[name];
-        source.connect(audio_ctx.destination);
-        if(audio_num === 10){
-          source.loop = true;
-        }
-        source.start(0);
-        if(stopFlag === true){
-          source.stop(0)
-          current_audio = ""
-          stopFlag = false
+        if(stopFlag){
+          if(stopFlag === false){
+            current_audio = audioFiles[audio_num][1]
+            const source = audio_ctx.createBufferSource();
+            source.buffer = audio_buffers[name];
+            source.connect(audio_ctx.destination);
+            if(audio_num === 10){
+              source.loop = true;
+            }
+            source.start(0);
+          }else if(stopFlag === true){
+            source.stop(0)
+            current_audio = ""
+            stopFlag = false
+          }
         }
       }
 
@@ -703,10 +715,8 @@
       function stop(){
         document.getElementById("icon").textContent = "drafts"
         console.log(stopFlag)
-        if(stopFlag === false){
-          source.stop(0)
-        }
         stopFlag = true
+        playAudio("",20)
       }
     </script>
   </body>

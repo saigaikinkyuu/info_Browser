@@ -76,6 +76,8 @@
 
       // 音声ファイルの読み込み完了後の処理
       loadAudioFiles().then(() => {
+      const audioName = audioFiles[10][1];
+      playAudio(audioName,10);
       window.setInterval(check, 3000);
       window.setInterval(quakeNews, 1000);
       var attend = "";
@@ -242,11 +244,6 @@
       }
       function check(){
         try{
-          if(new Date().getMinutes() === 05 || new Date().getMinutes() === 15 || new Date().getMinutes() === 25 || new Date().getMinutes() === 35 || new Date().getMinutes() === 45 || new Date().getMinutes() === 55){
-            if(new Date().getSeconds() === 00 || new Date().getSeconds() === 01 || new Date().getSeconds() === 02 || new Date().getSeconds() === 03){
-              location.reload();
-            }
-          }
           num++
           if(num2 === false || num2 === true){
               num = 0;

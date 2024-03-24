@@ -680,9 +680,6 @@
         const source = audio_ctx.createBufferSource();
         source.buffer = audio_buffers[name];
         source.connect(audio_ctx.destination);
-        if(audio_num === 10){
-          source.loop = true;
-        }
         source.start(0);
         if(stopFlag === true){
           source.stop(0)

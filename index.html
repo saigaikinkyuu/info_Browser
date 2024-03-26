@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
   </head>
-  <body>
+  <body onclick="openFullscreen()">
     <style>
       img{
         height: 345px;
@@ -36,6 +36,18 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.3/dist/howler.js" defer></script>
     <script>
+      function requestFullscreen(elem) {
+        // 全画面表示をリクエストするメソッドを取得
+        const method = elem.requestFullscreen || elem.webkitRequestFullscreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
+        if (method) {
+          method.call(elem); // 全画面表示をリクエスト
+        }
+      }
+
+      function openFullscreen() {
+        const elem = document.documentElement;
+        requestFullscreen(elem);
+      }
       var stopFlag = null
       const audio_ctx = new AudioContext();
       let audio_buffers = {}; // 音声ファイルを格納するオブジェクト

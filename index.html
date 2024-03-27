@@ -96,7 +96,7 @@
       var eew = "";
       var tsunami = "";
       var quake = "";
-      var quaekAudioFlag = ""
+      var quaekAudioFlag = false
       var tsunamiNotify = "";
       var error = "";
       var num = 0;
@@ -330,7 +330,7 @@
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                  if(quake !== "" && quake !== data[0].id){
+                  if(quake !== "" && quake !== data[0].id || quakeAudioFlag === true){
                     var audioQuake = true
                   }else {
                     var audioQuake = false

@@ -563,7 +563,6 @@
                         // クリックした位置に対応する音声を再生
                         const audioName = audioFiles[17][1];
                         playAudio(audioName,17);
-                        quakeAudioFlag = false
                       }
                   }else if(attend === ""){
                     attend = data[0].Kind
@@ -611,6 +610,9 @@
         source.connect(audio_ctx.destination);
         if(audio_num === 10){
           source.loop = true;
+        }
+        if(audio_num === 17){
+          setTimeout(quakeAudioFlag = false,39.0 * 1000);
         }
         source.start(0);
         if(audio_num === 10){

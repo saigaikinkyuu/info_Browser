@@ -114,11 +114,11 @@
           var timeHMS = ("0" + timeHour-1).slice(-2) + "59" + (60+ timeSecond)
           }else{
             //
-          var timeHMS = ("0" + timeHour).slice(-2) + ("0" + (timeMinute-24)).slice(-2) + (60 + timeSecond)
+          var timeHMS = ("0" + timeHour).slice(-2) + ("0" + (timeMinute)).slice(-2) + (60 + timeSecond)
           }
         }else {
           //
-          var timeHMS =("0" + timeHour).slice(-2) + ("0" + (timeMinute-24)).slice(-2) +  ("0" + timeSecond).slice(-2)
+          var timeHMS =("0" + timeHour).slice(-2) + ("0" + (timeMinute)).slice(-2) +  ("0" + timeSecond).slice(-2)
         }
         //
           fetch('https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + '/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + timeHMS + '.json')

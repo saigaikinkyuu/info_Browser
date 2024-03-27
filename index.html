@@ -94,6 +94,7 @@
       var eew = "";
       var tsunami = "";
       var quake = "";
+      var quaekAudioFlag = ""
       var tsunamiNotify = "";
       var error = "";
       var num = 0;
@@ -332,8 +333,11 @@
                   }else {
                     var audioQuake = false
                   }
-                  if(quake !== data[0].id){
+                  if(quake !== data[0].id || quakeAudioFlag === false){
                       quake = data[0].id;
+                      if(quakeAudioFlag === false){
+                        quakeAudioFlag = true
+                      }
                       if(num2 === true){
                         num4 = 2
                         document.getElementById("icon").textContent = "mail"
@@ -518,13 +522,6 @@
                               const audioName = audioFiles[10][1];
                               playAudio(audioName,10);
                           }
-                        }else if(audioQuake === false){
-                          // 初回再生のために準備を行う
-                          prepareAudioBufferNode();
-        
-                          // クリックした位置に対応する音声を再生
-                          const audioName = audioFiles[10][1];
-                          playAudio(audioName,10);
                         }
                       }
                   }else{
@@ -546,6 +543,7 @@
                         // クリックした位置に対応する音声を再生
                         const audioName = audioFiles[17][1];
                         playAudio(audioName,17);
+                        quakeAudioFlag = false
                       }
                   }else if(attend === ""){
                     attend = data[0].Kind

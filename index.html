@@ -54,7 +54,7 @@
       let audio_buffer_nodes = {}; // 音声ノードを格納するオブジェクト
       let current_audio = null; // 現在再生中の音声を示す変数
 
-      // 音声ファイルのURLと名前の配列
+      // 音声ファイルのURLと名前の配列(Quake[20])
       const audioFiles = [
         ["https://monitor.jkisyou.com/audio/Quake推定1.mp3", "Suitei1"],
         ["https://monitor.jkisyou.com/audio/Quake推定2.mp3", "Suitei2"],
@@ -74,8 +74,13 @@
         ["https://monitor.jkisyou.com/audio/Quake5.mp3", "quake5"],
         ["https://monitor.jkisyou.com/audio/eew.wav", "eewN"],
         ["https://monitor.jkisyou.com/audio/Test.mp3", "Test"],
-        ["https://monitor.jkisyou.com/audio/QuakeHypo.mp3", "QuakeHypo"],
-        ["https://monitor.jkisyou.com/audio/QuakeForeign.mp3", "QuakeForeign"]
+        ["https://monitor.jkisyou.com/audio/QuakeHypoInfo.mp3", "QuakeHypo"],
+        ["https://monitor.jkisyou.com/audio/QuakeForeign.mp3", "QuakeForeign"],
+        ["https://monitor.jkisyou.com/audio/QuakeHypoIntInfo.mp3", "QuakeHypoIntInfo"],
+        ["https://monitor.jkisyou.com/audio/QuakeInfo.mp3", "QuakeInfo"],
+        ["https://monitor.jkisyou.com/audio/QuakeIntNews.mp3", "QuakeIntNews"],
+        ["https://monitor.jkisyou.com/audio/QuakeMoreInfo.mp3", "QuakeMoreInfo"],
+        ["https://monitor.jkisyou.com/audio/tsunamiInfo.mp3", "tsunamiInfo"]
       ];
 
       // 音声ファイルの読み込みとノードの設定
@@ -316,8 +321,8 @@
                             prepareAudioBufferNode();
         
                            // クリックした位置に対応する音声を再生
-                           const audioName = audioFiles[10][1];
-                           playAudio(audioName,10);
+                           const audioName = audioFiles[24][1];
+                           playAudio(audioName,24);
                           }
                         }
                       }
@@ -513,13 +518,28 @@
                               const audioName = audioFiles[16][1];
                               playAudio(audioName,16);
                             }else {
-                              
-                              // 初回再生のために準備を行う
-                              prepareAudioBufferNode();
+                              if(type === "震源・震度に関する情報"){
+                                // 初回再生のために準備を行う
+                                prepareAudioBufferNode();
         
-                              // クリックした位置に対応する音声を再生
-                              const audioName = audioFiles[10][1];
-                              playAudio(audioName,10);
+                                // クリックした位置に対応する音声を再生
+                                const audioName = audioFiles[20][1];
+                                playAudio(audioName,20);
+                              }else if(type === "各地の震度に関する情報"){
+                                // 初回再生のために準備を行う
+                                prepareAudioBufferNode();
+        
+                                // クリックした位置に対応する音声を再生
+                                const audioName = audioFiles[23][1];
+                                playAudio(audioName,10);
+                              }else if(type === "震度速報"){
+                                // 初回再生のために準備を行う
+                                prepareAudioBufferNode();
+        
+                                // クリックした位置に対応する音声を再生
+                                const audioName = audioFiles[22][1];
+                                playAudio(audioName,22);
+                              }
                             }
                           }else {
                             if(type === "震源に関する情報"){
@@ -527,19 +547,19 @@
                               prepareAudioBufferNode();
                               // クリックした位置に対応する音声を再生
                               const audioName = audioFiles[18][1];
-                              playAudio(audioName,10);
+                              playAudio(audioName,18);
                             }else if(type === "遠地地震に関する情報"){
                               // 初回再生のために準備を行う
                               prepareAudioBufferNode();
                               // クリックした位置に対応する音声を再生
                               const audioName = audioFiles[19][1];
-                              playAudio(audioName,10);
+                              playAudio(audioName,19);
                             }else{
                               // 初回再生のために準備を行う
                               prepareAudioBufferNode();
                               // クリックした位置に対応する音声を再生
-                              const audioName = audioFiles[10][1];
-                              playAudio(audioName,10);
+                              const audioName = audioFiles[21][1];
+                              playAudio(audioName,21);
                             }
                           }
                         }

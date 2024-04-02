@@ -136,9 +136,8 @@
                 suiteiN = data.hypoInfo.items[0].reportNum
                 document.getElementById("icon").textContent = "mail"
                 if(data.hypoInfo.items[0].isCancel === "false" || data.hypoInfo.items[0].isCancel === ""){
-                  document.getElementById("kind").textContent = "地震検知[第" + data.hypoInfo.items[0].reportNum + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
-                  document.getElementById("body").innerHTML = new Date().getHours() + "時" + new Date().getMinutes() + "分頃、" + data.hypoInfo.items[0].regionName + "にて、推定最大震度" + data.hypoInfo.items[0].calcintensity + "の地震が発生しました。\n津波の発生の可能性が考えられます。海岸付近から離れてください。\n地震の詳細です。深さ" + data.hypoInfo.items[0].depth + "、マグニチュード" + data.hypoInfo.items[0].magnitude
                   if(data.hypoInfo.items[0].calcintensity === "01"){
+                    var tsunamiExplain = "念の為海岸から離れてください。"
                     // 初回再生のために準備を行う
                     prepareAudioBufferNode();
         
@@ -146,6 +145,7 @@
                       const audioName = audioFiles[0][1];
                       playAudio(audioName,0);
                   }else if(data.hypoInfo.items[0].calcintensity === "02"){
+                    var tsunamiExplain = "念の為海岸から離れてください。"
                     // 初回再生のために準備を行う
                     prepareAudioBufferNode();
         
@@ -153,6 +153,7 @@
                       const audioName = audioFiles[1][1];
                       playAudio(audioName,1);
                   }else if(data.hypoInfo.items[0].calcintensity === "03"){
+                    var tsunamiExplain = "念の為海岸から離れてください。"
                     // 初回再生のために準備を行う
                     prepareAudioBufferNode();
         
@@ -160,6 +161,7 @@
                       const audioName = audioFiles[2][1];
                       playAudio(audioName,2);
                   }else if(data.hypoInfo.items[0].calcintensity === "04"){
+                    var tsunamiExplain = "念の為海岸から離れてください。"
                     // 初回再生のために準備を行う
                     prepareAudioBufferNode();
         
@@ -167,6 +169,7 @@
                       const audioName = audioFiles[3][1];
                       playAudio(audioName,3);
                   }else if(data.hypoInfo.items[0].calcintensity === "5-"){
+                    var tsunamiExplain = "津波の発生が考えられます。海岸から離れてください。"
                     // 初回再生のために準備を行う
                     prepareAudioBufferNode();
         
@@ -174,6 +177,7 @@
                       const audioName = audioFiles[4][1];
                       playAudio(audioName,4);
                   }else if(data.hypoInfo.items[0].calcintensity === "5+"){
+                    var tsunamiExplain = "津波の発生が考えられます。海岸から離れてください。"
                     // 初回再生のために準備を行う
                     prepareAudioBufferNode();
         
@@ -181,6 +185,7 @@
                       const audioName = audioFiles[5][1];
                       playAudio(audioName,5);
                   }else if(data.hypoInfo.items[0].calcintensity === "6-"){
+                    var tsunamiExplain = "津波の発生が考えられます。海岸から直ちに離れてください。また、屋内にいる人は身の安全を確保してください。"
                     // 初回再生のために準備を行う
                     prepareAudioBufferNode();
         
@@ -188,6 +193,7 @@
                       const audioName = audioFiles[6][1];
                       playAudio(audioName,6);
                   }else if(data.hypoInfo.items[0].calcintensity === "6+"){
+                    var tsunamiExplain = "津波の発生が考えられます。海岸から直ちに離れてください。また、屋内にいる人は身の安全を確保してください。"
                     // 初回再生のために準備を行う
                     prepareAudioBufferNode();
         
@@ -195,6 +201,7 @@
                       const audioName = audioFiles[7][1];
                       playAudio(audioName,7);
                   }else if(data.hypoInfo.items[0].calcintensity === "07"){
+                    var tsunamiExplain = "津波の発生が考えられます。海岸から直ちに離れてください。また、屋内にいる人は身の安全を確保してください。"
                     // 初回再生のために準備を行う
                     prepareAudioBufferNode();
         
@@ -202,6 +209,8 @@
                       const audioName = audioFiles[8][1];
                       playAudio(audioName,8);
                   }
+                  document.getElementById("kind").textContent = "地震検知[第" + data.hypoInfo.items[0].reportNum + "報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
+                  document.getElementById("body").innerHTML = new Date().getHours() + "時" + new Date().getMinutes() + "分頃、" + data.hypoInfo.items[0].regionName + "にて、推定最大震度" + data.hypoInfo.items[0].calcintensity + "の地震が発生しました。\n" + tsunamiExplain + "\n地震の詳細です。深さ" + data.hypoInfo.items[0].depth + "、マグニチュード" + data.hypoInfo.items[0].magnitude
                 }else {
                   document.getElementById("kind").textContent = "地震検知[最終報](" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                   document.getElementById("body").innerHTML = "先程の地震検知情報は、キャンセルされました。"

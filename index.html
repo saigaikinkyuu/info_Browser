@@ -80,7 +80,8 @@
         ["https://monitor.jkisyou.com/audio/QuakeInfo.mp3", "QuakeInfo"],
         ["https://monitor.jkisyou.com/audio/QuakeIntNews.mp3", "QuakeIntNews"],
         ["https://monitor.jkisyou.com/audio/QuakeMoreInfo.mp3", "QuakeMoreInfo"],
-        ["https://monitor.jkisyou.com/audio/tsunamiInfo.mp3", "tsunamiInfo"]
+        ["https://monitor.jkisyou.com/audio/tsunamiInfo.mp3", "tsunamiInfo"],
+        ["https://monitor.jkisyou.com/audio/tsunamiFinAnounce.mp3", "tsunamiFinAnounce.mp3"]
       ];
 
       // 音声ファイルの読み込みとノードの設定
@@ -272,6 +273,12 @@
                             document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
                             if(data[0].cancelled === true && data[0].areas[0] === undefined){
                               document.getElementById("body-tsunami").innerHTML = "発表地域全域にて解除"
+                              // 初回再生のために準備を行う
+                              prepareAudioBufferNode();
+                              // クリックした位置に対応する音声を再生
+                              const audioName = audioFiles[25][1];
+                              playAudio(audioName,25);
+                              }
                             }else if(data[0].cancelled === false){
                               var watch = ""
                               var warning = ""
@@ -326,13 +333,12 @@
                               }
                               body = "発表地域\n<strong style='color: #9400d3;'>大津波警報</strong><b>\n" + mesureWarning + "</b>\n<strong style='color: red;'>津波警報</strong><b>\n" + warning + "</b>\n<strong style='color: #ffd700;'>津波注意報</strong><b>\n" + watch + "</b>"
                               document.getElementById("body-tsunami").innerHTML = body
+                              // 初回再生のために準備を行う
+                              prepareAudioBufferNode();
+                              // クリックした位置に対応する音声を再生
+                              const audioName = audioFiles[24][1];
+                              playAudio(audioName,24);
                             }
-                            // 初回再生のために準備を行う
-                            prepareAudioBufferNode();
-        
-                           // クリックした位置に対応する音声を再生
-                           const audioName = audioFiles[24][1];
-                           playAudio(audioName,24);
                           }
                         }
                     }else {

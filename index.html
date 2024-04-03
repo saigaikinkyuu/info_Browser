@@ -269,7 +269,7 @@
                             num4 = 2
                             document.getElementById("icon-tsunami").textContent = "mail"
                             document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
-                            if(data[0].cancelled === true && data[0].areas === ""){
+                            if(data[0].cancelled === true && data[0].areas === []){
                               document.getElementById("body-tsunami").innerHTML = "発表地域全域にて解除"
                             }else if(data[0].cancelled === false){
                               var watch = ""

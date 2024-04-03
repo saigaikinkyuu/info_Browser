@@ -340,9 +340,8 @@
                       document.getElementById("icon-tsunami").textContent = "drafts"
                       document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒更新)"
                       document.getElementById("body-tsunami").innerHTML = "津波警報等の発表はありません。"
-                    }else {
-                      tsunami = "None"
-                    }}
+                    }
+                  }
                   });
               url = 'https://api.p2pquake.net/v2/history?codes=551&limit=1';
               fetch(url)

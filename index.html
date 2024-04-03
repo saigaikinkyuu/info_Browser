@@ -323,7 +323,7 @@
                               if(mesureWarning === "" || mesureWarning === null){
                                 mesureWarning = "地域なし"
                               }
-                              body = "発表地域\n大津波警報\n" + mesureWarning + "\n津波警報\n" + warning + "\n津波注意報\n" + watch
+                              body = "発表地域\n<b style='color: #9400d3;'>大津波警報<\b><b>\n" + mesureWarning + "<\b>\n<b style='color: red;'>津波警報<\b><b>\n" + warning + "<\b>\n<b style='color: #ffff00;'>津波注意報<\b<b>>\n" + watch + "<\b>"
                               document.getElementById("body-tsunami").innerHTML = body
                             }
                             // 初回再生のために準備を行う

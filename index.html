@@ -289,7 +289,7 @@
                                   }else {
                                     height = "--"
                                   }
-                                  watch += areas[0].name + "(" + height + ")　"
+                                  watch += areas[i].name + "(" + height + ")　"
                                 }else if(areas[i].grade === "Warning"){
                                   if(areas[i].maxHeight){
                                     if(areas[i].maxHeight.description && areas[i].maxHeight.description !== ""){
@@ -311,7 +311,7 @@
                                   }else {
                                     height = "--"
                                   }
-                                  mesureWarning += areas[0].name + "(" + height + ")　"
+                                  mesureWarning += areas[i].name + "(" + height + ")　"
                                 }
                               }
                               if(watch === "" || watch === null){

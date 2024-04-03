@@ -23,13 +23,13 @@
       }
     </style>
     <div data-type="quake">
-      <div id="div" onclick="stop()">
+      <div id="div" onclick="stop(0)">
         <div style="display: flex;"><span class="material-symbols-outlined" id="icon" style="font-size: 75px;"></span><h1 id="kind"></h1></div>
         <div id="body" style="font-size: 20px;white-space: pre-line;"></div>
       </div>
     </div>
     <div data-type="tsunami">
-      <div id="div-tsunami" onclick="stop()">
+      <div id="div-tsunami" onclick="stop(1)">
         <div style="display: flex;"><span class="material-symbols-outlined" id="icon-tsunami" style="font-size: 75px;"></span><h1 id="kind-tsunami"></h1></div>
         <div id="body-tsunami" style="font-size: 20px;white-space: pre-line;"></div>
       </div>
@@ -655,8 +655,12 @@
           audio_buffer_nodes[name].connect(audio_ctx.destination);
         }
       }
-      function stop(){
-        document.getElementById("icon").textContent = "drafts"
+      function stop(num){
+        if(num === 0){
+          document.getElementById("icon").textContent = "drafts"
+        }else if(num === 1){
+          document.getElementById("icon-tsunami").textContent = "drafts"
+        }
       }
     </script>
   </body>

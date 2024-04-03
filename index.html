@@ -261,7 +261,7 @@
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                  if(data[0]){
+                  if(data[0] && tsunami !== data[0].id){
                       tsunami = data[0].id;
                       if(data[0].areas){
                           if(num2 === true){

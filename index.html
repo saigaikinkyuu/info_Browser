@@ -262,7 +262,6 @@
                 .then(response => response.json())
                 .then(data => {
                   if(data[0]){
-                    if(tsunami !== data[0].id && tsunami !== ""){
                       tsunami = data[0].id;
                       if(data[0].areas){
                           if(num2 === true){
@@ -334,7 +333,6 @@
                            playAudio(audioName,24);
                           }
                         }
-                      }
                     }else {
                     if(tsunami === ""){
                       tsunami = "None";

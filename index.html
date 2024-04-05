@@ -130,7 +130,7 @@
           fetch('https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + '/' + new Date().getFullYear() + ("0" + (new Date().getMonth()+1)).slice(-2) + ("0" + new Date().getDate()).slice(-2) + timeHMS + '.json')
             .then(response => response.json())
             .then(data => {
-              if(data.hypoInfo !== null && suiteiN !== data.hypoInfo.items[0].reportNum){
+              if(data.hypoInfo !== null && suiteiN !== data.hypoInfo.items[0].reportNum && (document.getElementById('kind').textContent).includes('EEW') === false){
                 if(data.hypoInfo.items[0].isFinal === true){
                   suiteiN = 0
                 }
@@ -247,7 +247,7 @@
                       }
                       document.getElementById("body").innerHTML = "発表地域\n" + areaBody
                       // 初回再生のために準備を行う
-                    prepareAudioBufferNode();
+                      prepareAudioBufferNode();
         
                       // クリックした位置に対応する音声を再生
                       const audioName = audioFiles[11][1];

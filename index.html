@@ -234,7 +234,7 @@
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                  if(eew !== data[0].id && eew !== ""){
+                  if(eew !== data[0].id){
                     eew = data[0].id;
                     if(num2 === true){
                       num4 = 2
@@ -250,8 +250,8 @@
                       prepareAudioBufferNode();
         
                       // クリックした位置に対応する音声を再生
-                      const audioName = audioFiles[11][1];
-                      playAudio(audioName,11);
+                      const audioName = audioFiles[16][1];
+                      playAudio(audioName,16);
                     }
                   }else if(eew === ""){
                     eew = data[0].id

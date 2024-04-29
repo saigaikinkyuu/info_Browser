@@ -481,16 +481,16 @@
                           }
                          }
                         if(type === "震度速報"){
-                          var body = at + "頃、最大" + maxi + "を観測する地震が発生しました。<br>" + message + "<br>津波の情報に留意してください。\n\n震度の観測情報(速報値)です。" + areas
+                          var body = at + "頃、最大" + maxi + "を観測する地震が発生しました。<br>" + message + "<br>また、津波の情報に留意してください。\n\n震度の観測情報(速報値)です。" + areas
                           document.getElementById("body").innerHTML = body
                         }else if(type === "震源・震度に関する情報"){
-                          var body = at + "頃" + hypocenter + "で最大" + maxi + "を観測する地震が発生しました。\n" + message + "\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
+                          var body = at + "頃" + hypocenter + "で最大" + maxi + "を観測する地震が発生しました。\n" + message + "\nまた、" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
                           document.getElementById("body").innerHTML = body
                         }else if(type === "震源に関する情報"){
-                          var body = at + "頃" + hypocenter + "で地震が発生しました。\n" + message + "\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。"
+                          var body = at + "頃" + hypocenter + "で地震が発生しました。\n" + message + "\nまた、" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。"
                           document.getElementById("body").innerHTML = body
                         }else if(type === "各地の震度に関する情報"){
-                          var body = at + "頃" + hypocenter + "で最大" + maxi + "を観測する地震が発生しました。\n" + message + "\n" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
+                          var body = at + "頃" + hypocenter + "で最大" + maxi + "を観測する地震が発生しました。\n" + message + "\nまた、" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
                           document.getElementById("body").innerHTML = body
                         }else if(type === "遠地地震に関する情報"){
                           var body = "気象庁より遠地地震に関する情報が発表されました。"

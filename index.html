@@ -297,7 +297,7 @@
                               for(var i = 0;i < forecastAreas.length;i++){
                                 let tsunamiHeight = ""
                                 if(forecastAreas[i].MaxHeight){
-                                  if(forecastAreas[i].MaxHeight.TsunamiHeight.length > 8){
+                                  if(forecastAreas[i].MaxHeight.TsunamiHeight.length > 7){
                                     console.log(Number(("" + (forecastAreas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4)))
                                     let unicode = String.fromCharCode(parseInt((("" + (forecastAreas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4)), 16))
                                     tsunamiHeight = unicode + "" + (forecastAreas[i].MaxHeight.TsunamiHeight).slice(-2) + "㍍"

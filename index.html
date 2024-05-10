@@ -234,6 +234,7 @@
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
+                  if(data[0] !== ""){
                   if(eew !== data[0].id && eew !== ""){
                     eew = data[0].id;
                     if(num2 === true){
@@ -256,22 +257,25 @@
                   }else if(eew === ""){
                     eew = data[0].id
                   }
+                  }
                 });
               //津波(tsunami1,tsunami2)
-              url = 'https://api.p2pquake.net/v2/history?codes=552&limit=1';
+              url = 'https://www.jma.go.jp/bosai/tsunami/data/list.json';
               fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                  if(data[0] && tsunami !== data[0].id){
-                      console.log(tsunami + "," + data[0].id)
-                      tsunami = data[0].id;
-                      if(data[0].areas){
-                        console.log(data[0].areas[0])
+                  if(data[0]){
+                    fetch('https://www.jma.go.jp/bosai/tsunami/data/' + data[0].json)
+                      .then(response => response.json())
+                      .then(datas => {
+                        if(tsunami !== datas.Head.EventID){
+                          tsunami = datas.Head.EventID;
+                          if(datas.Body.Tsunami.Forecast){
                           if(num2 === true){
                             num4 = 2
                             document.getElementById("icon-tsunami").textContent = "mail"
                             document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
-                            if(data[0].cancelled === true && data[0].areas[0] === undefined){
+                            if(datas.Head.InfoType !== "発表" && (new Date(data[0].at).getMonth()+1) !== (new Date().getMonth()+1) && (new Date(data[0].at).getDate()) !== (new Date().getDate())){
                               document.getElementById("body-tsunami").innerHTML = "発表地域全域にて解除"
                               // 初回再生のために準備を行う
                               prepareAudioBufferNode();
@@ -279,60 +283,57 @@
                               const audioName = audioFiles[25][1];
                               playAudio(audioName,25);
                               }
-                            }else if(data[0].cancelled === false){
-                              var watch = ""
-                              var warning = ""
-                              var mesureWarning = ""
-                              var height = ""
-                              var areas = data[0].areas
-                              var body = ""
-                              for(var i = 0;i<areas.length;i++){
-                                if(areas[i].grade === "Watch"){
-                                  if(areas[i].maxHeight){
-                                    if(areas[i].maxHeight.description && areas[i].maxHeight.description !== ""){
-                                      height = areas[i].maxHeight.description
-                                    }else {
-                                      height = "--"
-                                    }
+                            }else if(datas.Head.InfoType === "発表"){
+                              var forecastAreas = datas.Body.Tsunami.Forecast.Item
+                              var bodyAreas = []
+                              let tsunamiLV1 = ""
+                              let tsunamiLV2 = ""
+                              let tsunamiLV3 = ""
+                              let tsunamiLV4 = ""
+                              let bodyTsunamiLV1 = ""
+                              let bodyTsunamiLV2 = ""
+                              let bodyTsunamiLV3 = ""
+                              let bodyTsunamiLV4 = ""
+                              for(var i = 0;i < forecastAreas.length;i++){
+                                let tsunamiHeight = ""
+                                if(forecastAeas[i].MaxHeight){
+                                  if(forecastAeas[i].MaxHeight.TsunamiHeight.length > 8){
+                                    tsunamiHeight = "\u{" + Number(("" + (forecastAeas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4)) + "}" + (forecastAeas[i].MaxHeight.TsunamiHeight).slice(-2)
                                   }else {
-                                    height = "--"
+                                    tsunamiHeight = forecastAreas[i].MaxHeight.TsunamiHeight
                                   }
-                                  watch += areas[i].name + "(" + height + ")　"
-                                }else if(areas[i].grade === "Warning"){
-                                  if(areas[i].maxHeight){
-                                    if(areas[i].maxHeight.description && areas[i].maxHeight.description !== ""){
-                                      height = areas[i].maxHeight.description
-                                    }else {
-                                      height = "--"
-                                    }
-                                  }else {
-                                    height = "--"
-                                  }
-                                  warning += areas[i].name + "(" + height + ")　"
-                                }else if(areas[i].grade === "MajorWarning"){
-                                  if(areas[i].maxHeight){
-                                    if(areas[i].maxHeight.description && areas[i].maxHeight.description !== ""){
-                                      height = areas[i].maxHeight.description
-                                    }else {
-                                      height = "--"
-                                    }
-                                  }else {
-                                    height = "--"
-                                  }
-                                  mesureWarning += areas[i].name + "(" + height + ")　"
+                                }
+                                bodyAreas.push([forecastAreas[i].Area.Name,forecastAreas[i].Category.Kind.Name,tsunamiHeight])
+                              }
+                              for(var n = 0;n<bodyAreas.length;n++){
+                                if(bodyAreas[n][1] === "津波予報（若干の海面変動）"){
+                                  tsunamiLV4 += bodyAreas[n][0] + "[" + bodyAreas[n][2] + "]，"
+                                }else if(bodyAreas[n][1] === "津波注意報"){
+                                  tsunamiLV3 += bodyAreas[n][0] + "[" + bodyAreas[n][2] + "]，"
+                                }else if(bodyAreas[n][1] === "津波警報"){
+                                  tsunamiLV2 += bodyAreas[n][0] + "[" + bodyAreas[n][2] + "]，"
+                                }else if(bodyAreas[n][1] === "大津波警報：発表"){
+                                  tsunamiLV1 += bodyAreas[n][0] + "[" + bodyAreas[n][2] + "]，"
                                 }
                               }
-                              if(watch === "" || watch === null){
-                                watch = "地域なし"
+                              if(tsunamiLV1 !== ""){
+                                tsunamiLV1 = tsunamiLV1.substring(0, tsunamiLV1.length - 1);
+                                tsunamiLV1 += "\n"
+                                bodyTsunamiLV1 = "<span style='color: purple;'>【大津波警報】<span>\n"
+                              }else if(tsunamiLV2 !== ""){
+                                tsunamiLV2 = tsunamiLV2.substring(0, tsunamiLV2.length - 1);
+                                tsunamiLV2 += "\n"
+                                bodyTsunamiLV1 = "<span style='color: red;'>【津波警報】<span>\n"
+                              }else if(tsunamiLV3 !== ""){
+                                tsunamiLV3 = tsunamiLV3.substring(0, tsunamiLV3.length - 1);
+                                tsunamiLV3 += "\n"
+                                bodyTsunamiLV1 = "<span style='color: yellow;'>【津波注意報】<span>\n"
+                              }else if(tsunamiLV4 !== ""){
+                                tsunamiLV4 = tsunamiLV4.substring(0, tsunamiLV4.length - 1);
+                                tsunamiLV4 += "\n"
+                                bodyTsunamiLV1 = "<span style='color: lightblue;'>【若干な海面変動】<span>\n"
                               }
-                              if(warning === "" || warning === null){
-                                warning = "地域なし"
-                              }
-                              if(mesureWarning === "" || mesureWarning === null){
-                                mesureWarning = "地域なし"
-                              }
-                              body = "発表地域\n<strong style='color: #9400d3;'>大津波警報</strong><b>\n" + mesureWarning + "</b>\n<strong style='color: red;'>津波警報</strong><b>\n" + warning + "</b>\n<strong style='color: #ffd700;'>津波注意報</strong><b>\n" + watch + "</b>"
-                              document.getElementById("body-tsunami").innerHTML = body
+                              document.getElementById("body-tsunami").innerHTML = bodyTsunamiLV1 + tsunamiLV1 + bodyTsunamiLV2 + tsunamiLV2 + bodyTsunamiLV3 + tsunamiLV3 + bodyTsunamiLV4 + tsunamiLV4
                               // 初回再生のために準備を行う
                               prepareAudioBufferNode();
                               // クリックした位置に対応する音声を再生
@@ -347,6 +348,7 @@
                       document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒更新)"
                       document.getElementById("body-tsunami").innerHTML = "津波警報等の発表はありません。"
                     }
+                  }
                   }
                   });
               url = 'https://api.p2pquake.net/v2/history?codes=551&limit=1';
@@ -397,7 +399,7 @@
                         }
                         if(data[0].earthquake && type !== "遠地地震に関する情報" && type !== "Other"){
                           if(data[0].earthquake.domesticTsunami !== "None"){
-                            tsunami = "大津波警報、津波警報、津波注意報が発表されています。"
+                            tsunami = "大津波警報、津波警報、津波注意報等が発表されています。"
                           }
                           if(data[0].earthquake.hypocenter.depth || data[0].earthquake.hypocenter.depth === 0){
                             if(data[0].earthquake.hypocenter.depth >= 10){
@@ -491,6 +493,9 @@
                           document.getElementById("body").innerHTML = body
                         }else if(type === "各地の震度に関する情報"){
                           var body = at + "頃" + hypocenter + "で最大" + maxi + "を観測する地震が発生しました。\n" + message + "\nまた、" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n震度の観測情報です。" + areas
+                          if(maxi === "《不明》"){
+                            body = at + "頃" + hypocenter + "で地震が発生しました。\n" + message + "\nまた、" + tsunami + "\nまた、地震の詳細情報です。震源の深さ" + depth + "、マグニチュード" + mag + "。\n日本国内で震度1以上を観測した地点はありません。"
+                          }
                           document.getElementById("body").innerHTML = body
                         }else if(type === "遠地地震に関する情報"){
                           var body = "気象庁より遠地地震に関する情報が発表されました。"

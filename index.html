@@ -299,7 +299,8 @@
                                 if(forecastAeas[i].MaxHeight){
                                   if(forecastAeas[i].MaxHeight.TsunamiHeight.length > 8){
                                     console.log(Number(("" + (forecastAeas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4)))
-                                    tsunamiHeight = ("\u" + Number(("" + (forecastAeas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4))) + "" + (forecastAeas[i].MaxHeight.TsunamiHeight).slice(-2)
+                                    let unicode = "\u" + Number(("" + (forecastAeas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4))
+                                    tsunamiHeight = unicode + "" + (forecastAeas[i].MaxHeight.TsunamiHeight).slice(-2)
                                   }else {
                                     tsunamiHeight = forecastAreas[i].MaxHeight.TsunamiHeight
                                   }

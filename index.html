@@ -296,11 +296,11 @@
                               let bodyTsunamiLV4 = ""
                               for(var i = 0;i < forecastAreas.length;i++){
                                 let tsunamiHeight = ""
-                                if(forecastAeas[i].MaxHeight){
-                                  if(forecastAeas[i].MaxHeight.TsunamiHeight.length > 8){
-                                    console.log(Number(("" + (forecastAeas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4)))
-                                    let unicode = "\u" + Number(("" + (forecastAeas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4))
-                                    tsunamiHeight = unicode + "" + (forecastAeas[i].MaxHeight.TsunamiHeight).slice(-2)
+                                if(forecastAreas[i].MaxHeight){
+                                  if(forecastAreas[i].MaxHeight.TsunamiHeight.length > 8){
+                                    console.log(Number(("" + (forecastAreas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4)))
+                                    let unicode = "\u" + Number(("" + (forecastAreas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4))
+                                    tsunamiHeight = unicode + "" + (forecastAreas[i].MaxHeight.TsunamiHeight).slice(-2)
                                   }else {
                                     tsunamiHeight = forecastAreas[i].MaxHeight.TsunamiHeight
                                   }

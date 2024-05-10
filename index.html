@@ -300,9 +300,9 @@
                                   if(forecastAreas[i].MaxHeight.TsunamiHeight.length > 8){
                                     console.log(Number(("" + (forecastAreas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4)))
                                     let unicode = String.fromCharCode(parseInt((("" + (forecastAreas[i].MaxHeight.TsunamiHeight).slice(0,6)).slice(-4)), 16))
-                                    tsunamiHeight = unicode + "" + (forecastAreas[i].MaxHeight.TsunamiHeight).slice(-2)
+                                    tsunamiHeight = unicode + "" + (forecastAreas[i].MaxHeight.TsunamiHeight).slice(-2) + "㍍"
                                   }else {
-                                    tsunamiHeight = forecastAreas[i].MaxHeight.TsunamiHeight
+                                    tsunamiHeight = forecastAreas[i].MaxHeight.TsunamiHeight + "㍍"
                                   }
                                 }
                                 bodyAreas.push([forecastAreas[i].Area.Name,forecastAreas[i].Category.Kind.Name,tsunamiHeight])

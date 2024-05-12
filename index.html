@@ -275,9 +275,9 @@
                             num4 = 2
                             document.getElementById("icon-tsunami").textContent = "mail"
                             document.getElementById("kind-tsunami").textContent = "津波(" + new Date().getHours() + "時" + new Date().getMinutes() + "分" + new Date().getSeconds() + "秒受信)"
-                            // && (new Date(data[0].at).getMonth()+1) !== (new Date().getMonth()+1) && (new Date(data[0].at).getDate()) !== (new Date().getDate())
+                            //
                             console.log(datas.Head.InfoType)
-                            if(datas.Head.InfoType !== "発表"){
+                            if(datas.Head.InfoType !== "発表" && (new Date(data[0].at).getMonth()+1) !== (new Date().getMonth()+1) && (new Date(data[0].at).getDate()) !== (new Date().getDate())){
                               document.getElementById("body-tsunami").innerHTML = "発表地域全域にて解除"
                               // 初回再生のために準備を行う
                               prepareAudioBufferNode();
